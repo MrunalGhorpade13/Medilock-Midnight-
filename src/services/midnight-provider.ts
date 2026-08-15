@@ -54,20 +54,28 @@ class MidnightProviderService {
         win.midnight?.mnLace ||
         win.midnight?.lace ||
         win.midnight?.midnight ||
-        win.mnLace;
+        win.mnLace ||
+        win.cardano?.lace;
 
       if (!laceConnector) {
-        // Show explicit alert if Lace extension is not installed in the browser
-        console.warn('Lace Midnight extension provider not detected in window.midnight.');
+        const errorMsg =
+          'Midnight Lace Wallet Extension not detected!\n\n' +
+          'Please ensure:\n' +
+          '1. The Midnight Lace extension is installed in Google Chrome.\n' +
+          '2. Developer mode / extension permissions allow access to localhost:3001.\n' +
+          '3. Refresh the page after enabling Lace.';
+
+        console.warn(errorMsg);
+        alert(errorMsg);
+
         this.walletState = {
-          isConnected: true,
-          walletAddress: 'mn_test1_q9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4',
-          network: this.config.network,
+          isConnected: false,
+          error: 'Lace extension not installed',
         };
         return this.walletState;
       }
 
-      // Invoke the official Lace enable() method to trigger the extension popup window
+      // Invoke the official Lace enable() method to trigger the Chrome popup window
       const wallet = await laceConnector.enable();
       const state = await wallet.state();
       const uris = await wallet.serviceUriConfig();
@@ -84,6 +92,7 @@ class MidnightProviderService {
 
       return this.walletState;
     } catch (err: any) {
+      alert(`Lace Wallet Error: ${err.message || 'Connection request denied or cancelled.'}`);
       this.walletState = {
         isConnected: false,
         error: err.message || 'Failed to connect to Lace Midnight wallet',
