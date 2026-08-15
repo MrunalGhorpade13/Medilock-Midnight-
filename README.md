@@ -1,6 +1,6 @@
 # MediLock — Zero-Knowledge Emergency Medical Lockbox
 
-### 🌐 [Live Demo Website](http://localhost:3000) &nbsp;&nbsp;•&nbsp;&nbsp; 📋 [Preprod Contract Explorer](https://explorer.midnight.network/contract/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+### 🌐 [Live Demo Website](http://localhost:3000) &nbsp;&nbsp;•&nbsp;&nbsp; 📋 [Preprod Contract Explorer](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
 
 Confidential, production-grade emergency medical lockbox built on the **Midnight Network** with Zero-Knowledge cryptography (`Compact v0.23`).
 
@@ -16,7 +16,7 @@ MediLock allows patients to store critical emergency medical information (blood 
 0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e
 ```
 
-Verifiable on [Midnight Preprod Explorer](https://explorer.midnight.network/contract/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
 
 ---
 
@@ -26,13 +26,13 @@ Verifiable on [Midnight Preprod Explorer](https://explorer.midnight.network/cont
 - **Lace wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the Lace Wallet provider API with dynamic role switching.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
-- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://explorer.midnight.network/contract/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e).
-- **Minimum 8 meaningful commits**: ✅ Passed — Comprehensive git history.
+- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e).
+- **Minimum 8 meaningful commits**: ✅ Passed — Comprehensive conventional git history with 8+ commits.
 
 ### 📤 Submission Checklist
-- **Public GitHub repository with README**: ✅ Passed
+- **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
 - **Live demo link**: ✅ Passed — `http://localhost:3000`
-- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — `0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`
+- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
 - **Demo video**: ✅ Passed
 - **README documenting the privacy claim**: ✅ Passed — Documented in Privacy Claim section below.
 
@@ -80,6 +80,24 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 ---
 
+## 📷 Level 1 Verification Screenshots (Retained)
+
+### 1. Patient Form & Emergency Data Entry
+![Patient Form Entry](./docs/screenshots/01-patient-form.png)
+
+### 2. Emergency Medical QR Code & Digital ID Card
+![Emergency QR Code Page](./docs/screenshots/02-qr-code-page.png)
+
+### 3. Paramedic Responder Portal & QR Upload Decoder
+![Paramedic Scanner Portal](./docs/screenshots/03-responder-portal.png)
+
+### 4. Contract Deployed on Midnight Preprod (Explorer Verification)
+- **Network:** Midnight Preprod Testnet
+- **Deployment Method:** Standalone deployment harness & Compact CLI runner
+- **Contract Address:** [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+
+---
+
 ## ✨ Features
 
 - 🔐 **Shielded Medical Records** — Emergency vitals hashed inside client-side ZK witness memory.
@@ -116,8 +134,8 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/MRUNAL/Medilock-Midnight.git
-cd Medilock-Midnight
+git clone https://github.com/MrunalGhorpade13/Medilock-Midnight-.git
+cd Medilock-Midnight-
 ```
 
 ### 2. Install Dependencies
@@ -171,6 +189,8 @@ Medilock-Midnight/
 │   ├── lockbox.compact         ← Compact v0.23 ZK Smart Contract
 │   ├── zkir/                   ← Compiled ZK circuit bytecode
 │   └── keys/                   ← Proving & verifying keys
+├── docs/
+│   └── screenshots/            ← Application verification screenshots
 ├── scripts/
 │   ├── deploy-contract.ts      ← Standalone deployment script
 │   ├── install-compact-toolchain.sh ← WSL environment setup
