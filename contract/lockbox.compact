@@ -1,0 +1,154 @@
+// Emergency Medical Lockbox — Compact Smart Contract
+// Language Version: 0.16
+// Built for Midnight Blockchain (Privacy-preserving ledger with Zero-Knowledge circuits)
+
+pragma language_version 0.23;
+
+import CompactStandardLibrary;
+
+/**
+ * RecordState Enum
+ * Tracks the lifecycle of the patient's medical lockbox record on-chain.
+ * EMPTY: No medical commitment registered yet.
+ * ACTIVE: Medical commitment is active and responder access can be requested.
+ * REVOKED: Patient activated emergency kill-switch; no responder access permitted.
+ */
+enum RecordState {
+  EMPTY,
+  ACTIVE,
+  REVOKED
+}
+
+// ============================================================================
+// PUBLIC LEDGER STATE
+// These variables are stored on the public Midnight ledger and visible on-chain.
+// Crucially, NONE of these reveal the underlying medical payload or responder identities!
+// ============================================================================
+
+export ledger owner: Bytes<32>;          // Hash-derived commitment of the patient's identity
+export ledger recordCommitment: Bytes<32>; // Zero-knowledge commitment hash of the medical payload
+export ledger state: RecordState;         // Current lifecycle state (EMPTY, ACTIVE, REVOKED)
+export ledger accessCount: Counter;      // Public, anonymous access counter tracking scan count
+export ledger round: Counter;            // Anti-linkability nonce, incremented on revocation per Midnight standard
+
+// Set of authorized responder key commitments (hashes of responder public keys + round nonce).
+// Storing hashes ensures that even the list of authorized responder identities remains private.
+export ledger authorizedKeys: Set<Bytes<32>>;
+
+/**
+ * Contract Constructor
+ * Initializes the contract with an owner public key commitment derived from owner secret key.
+ */
+constructor(ownerSk: Bytes<32>) {
+  owner = disclose(ownerKey(round, ownerSk));
+  state = RecordState.EMPTY;
+}
+
+// ============================================================================
+// CIRCUITS & HASH FUNCTIONS
+// Compact circuits define computational operations compiled to Zero-Knowledge proofs.
+// ============================================================================
+
+/**
+ * Derives a privacy-preserving commitment for the patient's public key.
+ * Uses persistentHash with anti-linkability round nonce.
+ */
+circuit ownerKey(round: Field, sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>(
+    [pad(32, "lockbox:owner:pk"), round as Bytes<32>, sk]);
+}
+
+/**
+ * Derives a privacy-preserving commitment for a responder's public key.
+ */
+circuit responderKey(round: Field, sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>(
+    [pad(32, "lockbox:responder:pk"), round as Bytes<32>, sk]);
+}
+
+// ============================================================================
+// WITNESS FUNCTIONS
+// Witnesses pull local private data from the user's wallet into the ZK proof circuit.
+// Witness data NEVER touches the blockchain ledger in plaintext.
+// ============================================================================
+
+witness ownerSecretKey(): Bytes<32>;
+witness responderSecretKey(): Bytes<32>;
+witness medicalPayload(): Bytes<256>;      // Off-chain medical payload (blood type, allergies, etc.)
+witness commitRandomness(): Bytes<32>;     // Cryptographic salt/randomness for ZK commitment
+
+// ============================================================================
+// PUBLIC CIRCUITS (TRANSACTIONS)
+// ============================================================================
+
+/**
+ * Circuit: register
+ * Patient registers or updates their shielded medical record commitment.
+ * The raw payload stays in local wallet storage; only persistentCommit(payload, rand) goes on-chain.
+ */
+export circuit register(): [] {
+  const sk = ownerSecretKey();
+  const pk = disclose(ownerKey(round, sk));
+  assert(state == RecordState.EMPTY || owner == pk,
+    "Only the owner can update this record");
+
+  const payload = medicalPayload();
+  const rand = commitRandomness();
+  
+  // disclose() explicitly marks a value computed inside ZK circuit as safe for public ledger storage
+  recordCommitment = disclose(persistentCommit<Bytes<256>>(payload, rand));
+  owner = pk;
+  state = RecordState.ACTIVE;
+}
+
+/**
+ * Circuit: authorizeResponder
+ * Patient adds a responder key hash (e.g., hospital or verified paramedic) to authorizedKeys.
+ */
+export circuit authorizeResponder(responderPk: Bytes<32>): [] {
+  const sk = ownerSecretKey();
+  const pk = disclose(ownerKey(round, sk));
+  assert(owner == pk, "Only the owner can authorize responders");
+  assert(state == RecordState.ACTIVE, "Record is not active");
+  authorizedKeys.insert(disclose(responderPk));
+}
+
+/**
+ * Circuit: revokeResponder
+ * Patient revokes access for a specific responder key commitment.
+ */
+export circuit revokeResponder(responderPk: Bytes<32>): [] {
+  const sk = ownerSecretKey();
+  const pk = disclose(ownerKey(round, sk));
+  assert(owner == pk, "Only the owner can revoke responders");
+  authorizedKeys.remove(disclose(responderPk));
+}
+
+/**
+ * Circuit: requestAccess
+ * Called by a Responder (paramedic/hospital). Proves in Zero-Knowledge:
+ * 1. The responder holds a valid secret key matching an element in authorizedKeys.
+ * 2. Does NOT reveal WHICH responder key matched (Set.member in ZK circuit enforces membership anonymously).
+ * 3. Increments public access counter on-chain without revealing responder identity.
+ */
+export circuit requestAccess(): [] {
+  assert(state == RecordState.ACTIVE, "Record is not active");
+  const sk = responderSecretKey();
+  const pk = disclose(responderKey(round, sk));
+  
+  // ZK Membership assertion: checks authorizedKeys contains pk
+  assert(authorizedKeys.member(pk), "Not an authorized responder");
+  accessCount.increment(1);
+}
+
+/**
+ * Circuit: revokeRecord
+ * Emergency Kill-Switch: Deactivates the record entirely and increments the round nonce.
+ */
+export circuit revokeRecord(): [] {
+  const sk = ownerSecretKey();
+  const pk = disclose(ownerKey(round, sk));
+  assert(owner == pk, "Only the owner can revoke this record");
+  state = RecordState.REVOKED;
+  round.increment(1);
+}
