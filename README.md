@@ -45,7 +45,7 @@ Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/c
 ## 🌒 Requirements & Submission Checklist
 
 ### 📋 Requirements to Pass
-- **Lace wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the Lace Wallet provider API with dynamic role switching.
+- **Lace wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the Lace Wallet provider API with dynamic role switching and interactive disconnect toggle.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
 - **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e).
@@ -68,6 +68,22 @@ MediLock is a confidential emergency medical data vault where:
 3. **First Responders** scan the patient's Emergency QR Code or upload a QR image `.png` file.
 4. The responder's device generates a local ZK proof running `requestAccess()`. The proof verifies responder authorization without revealing which responder scanned the card.
 5. Patient vitals are decrypted locally for the paramedic, while on-chain state updates only an anonymous access counter (`accessCount.increment(1)`).
+
+---
+
+## 📷 Application Interface
+
+| 1. Create Your Medical ID Form | 2. Your Emergency QR Code |
+| :---: | :---: |
+| ![Create Your Medical ID Form](./docs/screenshots/01-create-medical-id-form.png) | ![Your Emergency QR Code](./docs/screenshots/02-emergency-qr-code.png) |
+
+| 3. Digital Medical ID Card | 4. Scan Medical ID Portal |
+| :---: | :---: |
+| ![Digital Medical ID Card](./docs/screenshots/03-digital-medical-id-card.png) | ![Scan Medical ID Portal](./docs/screenshots/04-responder-qr-scanner-portal.png) |
+
+| 5. Decrypted Emergency Medical Record (Responder View) |
+| :---: |
+| ![Decrypted Emergency Medical Record](./docs/screenshots/05-decrypted-medical-record-responder.png) |
 
 ---
 
@@ -99,18 +115,6 @@ MediLock is a confidential emergency medical data vault where:
 ## 🛡️ Privacy Claim
 
 An on-chain observer can see that a valid medical access request occurred, the public `accessCount` counter incremented by 1, and the record state is active. An on-chain observer **CANNOT** see the patient's blood type, allergies, emergency contacts, or the identity of the responder. The ZK circuit mathematically proves `authorizedKeys.member(pk)` without passing responder identity through `disclose()`. Private witness functions (`ownerSecretKey()`, `responderSecretKey()`, `medicalPayload()`) execute exclusively on the client machine, keeping patient vitals 100% private.
-
----
-
-## 📷 Application Interface
-
-| Patient Emergency Form | Digital Medical ID Card |
-| :---: | :---: |
-| ![Patient Form](./docs/screenshots/01-patient-form.png) | ![Medical ID Card](./docs/screenshots/02-qr-code-page.png) |
-
-| Emergency QR Code | Paramedic Responder Portal |
-| :---: | :---: |
-| ![QR Code Page](./docs/screenshots/02-qr-code-page.png) | ![Responder Portal](./docs/screenshots/03-responder-portal.png) |
 
 ---
 
