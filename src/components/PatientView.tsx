@@ -84,11 +84,8 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
     setSaveSuccess(false);
 
     try {
-      // Trigger Lace Wallet authentication popup if mnLace provider is available
-      const midnightGlobal = (window as any).midnight;
-      if (midnightGlobal && midnightGlobal.mnLace) {
-        await midnightProvider.connectLaceWallet();
-      }
+      // Trigger Lace Wallet authentication popup & state sync
+      await midnightProvider.connectLaceWallet();
 
       const updatedPayload: MedicalPayload = {
         fullName: fullName.trim(),

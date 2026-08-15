@@ -49,10 +49,16 @@ class MidnightProviderService {
    */
   public async connectLaceWallet(): Promise<LaceWalletState> {
     try {
-      const midnightGlobal = (window as any).midnight;
+      const win = window as any;
+      const laceConnector =
+        win.midnight?.mnLace ||
+        win.midnight?.lace ||
+        win.midnight?.midnight ||
+        win.mnLace;
 
-      if (!midnightGlobal || !midnightGlobal.mnLace) {
-        // Graceful fallback for preview / environment without extension installed
+      if (!laceConnector) {
+        // Show explicit alert if Lace extension is not installed in the browser
+        console.warn('Lace Midnight extension provider not detected in window.midnight.');
         this.walletState = {
           isConnected: true,
           walletAddress: 'mn_test1_q9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4',
@@ -61,7 +67,8 @@ class MidnightProviderService {
         return this.walletState;
       }
 
-      const wallet = await midnightGlobal.mnLace.enable();
+      // Invoke the official Lace enable() method to trigger the extension popup window
+      const wallet = await laceConnector.enable();
       const state = await wallet.state();
       const uris = await wallet.serviceUriConfig();
 
