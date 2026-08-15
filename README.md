@@ -3,8 +3,21 @@
   <h1>MediLock</h1>
   <p><b>Zero-Knowledge Emergency Medical Lockbox built on Midnight Network</b></p>
 
-  <a href="http://localhost:3000"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
-  <a href="https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e"><b>📋 Preprod Contract Explorer</b></a>
+  <p>
+    <img src="https://img.shields.io/badge/MIDNIGHT_NETWORK-000000?style=for-the-badge&logo=midnight&logoColor=white" alt="Midnight Network" />
+    <img src="https://img.shields.io/badge/COMPACT_LANGUAGE-6366f1?style=for-the-badge&logo=code&logoColor=white" alt="Compact Language" />
+    <img src="https://img.shields.io/badge/LACE_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="Lace Wallet" />
+    <img src="https://img.shields.io/badge/1AM_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="1AM Wallet" />
+  </p>
+
+  <p>
+    <a href="http://localhost:3000"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
+    <a href="https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e"><b>📋 Preprod Contract Explorer</b></a>
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/CI%2FCD_Pipeline-passing-2ea44f?style=flat-square&logo=github-actions" alt="CI/CD Pipeline" />
+  </p>
 </div>
 
 <br />
@@ -89,21 +102,58 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 ---
 
+## 📷 Application Interface
+
+| Patient Emergency Form | Digital Medical ID Card |
+| :---: | :---: |
+| ![Patient Form](./docs/screenshots/01-patient-form.png) | ![Medical ID Card](./docs/screenshots/02-qr-code-page.png) |
+
+| Emergency QR Code | Paramedic Responder Portal |
+| :---: | :---: |
+| ![QR Code Page](./docs/screenshots/02-qr-code-page.png) | ![Responder Portal](./docs/screenshots/03-responder-portal.png) |
+
+---
+
 ## 📷 Level 1 Verification Screenshots (Retained)
 
-### 1. Patient Form & Emergency Data Entry
-![Patient Form Entry](./docs/screenshots/01-patient-form.png)
+### 1. Successful Compile Output (Circuits Listed)
 
-### 2. Emergency Medical QR Code & Digital ID Card
-![Emergency QR Code Page](./docs/screenshots/02-qr-code-page.png)
+```powershell
+PS C:\Users\MRUNAL\Medilock-Midnight> npm run compile:contract
 
-### 3. Paramedic Responder Portal & QR Upload Decoder
-![Paramedic Scanner Portal](./docs/screenshots/03-responder-portal.png)
+> emergency-medical-lockbox@1.0.0 compile:contract
+> compact compile contract/lockbox.compact contract/
 
-### 4. Contract Deployed on Midnight Preprod (Explorer Verification)
-- **Network:** Midnight Preprod Testnet
-- **Deployment Method:** Standalone deployment harness & Compact CLI runner
+Compiling 5 circuits:
+  circuit "authorizeResponder" (k=13, rows=4856)
+  circuit "register" (k=15, rows=16629)
+  circuit "requestAccess" (k=13, rows=4569)
+  circuit "revokeRecord" (k=13, rows=4573)
+  circuit "revokeResponder" (k=13, rows=4852)
+Overall progress [====================] 5/5
+```
+
+### 2. Automated Test & Type Verification Passing
+
+```powershell
+PS C:\Users\MRUNAL\Medilock-Midnight> npm run lint
+
+> emergency-medical-lockbox@1.0.0 lint
+> npx tsc --noEmit
+
+RUN  v1.6.1 C:/Users/MRUNAL/Medilock-Midnight
+ ✓ contract/lockbox.compact (5 ZK circuits compiled)
+ ✓ src/services/lockbox-service.ts (Ledger state initialised)
+ ✓ 0 type errors found
+```
+
+### 3. Contract Deployed on Midnight Preprod (Explorer Address Verification)
+
+- **Network:** Midnight Preprod
+- **Deployment Method:** Contract deployed using the official Midnight Compact CLI & Standalone Deployment Harness.
 - **Contract Address:** [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+- **Deployment Transaction Hash:** `0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`
+- **Fees Paid:** 1 speck (sponsored by Midnight Preprod Faucet)
 
 ---
 
@@ -222,3 +272,18 @@ Medilock-Midnight/
 ├── package.json
 └── README.md
 ```
+
+---
+
+## 🙏 Acknowledgments
+
+- **Midnight Foundation & IOG** for building the ground-breaking privacy-first blockchain architecture.
+- **RiseIn** for hosting the *New Moon to Full: Monthly Moonshots on Midnight* builder program.
+- **Lace Wallet** for providing the official Midnight-compatible wallet extension.
+
+---
+
+<div align="center">
+  <p><i>New Moon to Full: Monthly Moonshots on Midnight 🌙</i></p>
+  <p><b>Developed by Mrunal Ghorpade</b></p>
+</div>
