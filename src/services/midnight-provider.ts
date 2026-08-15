@@ -86,6 +86,14 @@ class MidnightProviderService {
   }
 
   /**
+   * Disconnects the Lace Wallet session
+   */
+  public disconnectLaceWallet(): LaceWalletState {
+    this.walletState = { isConnected: false };
+    return this.walletState;
+  }
+
+  /**
    * Evaluates if local Proof Server is reachable at localhost:6300
    */
   public async checkProofServerHealth(): Promise<boolean> {

@@ -22,7 +22,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onModeChange,
   onOpenOnboarding,
 }) => {
-  const [walletState, setWalletState] = useState<LaceWalletState>(midnightProvider.getWalletState());
+  const [walletState, setWalletState] = useState<LaceWalletState>({ isConnected: false });
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(() => {
     // Restore persisted preference, default to light
     return localStorage.getItem('medilock_theme') === 'dark';
@@ -40,9 +41,20 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [isDark]);
 
-  useEffect(() => {
-    midnightProvider.connectLaceWallet().then(setWalletState);
-  }, []);
+  const handleConnectWallet = async () => {
+    setIsConnecting(true);
+    try {
+      const state = await midnightProvider.connectLaceWallet();
+      setWalletState(state);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const handleDisconnectWallet = () => {
+    const state = midnightProvider.disconnectLaceWallet();
+    setWalletState(state);
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-healthcare-border dark:border-gray-700 shadow-healthcare transition-colors duration-300">
@@ -118,13 +130,32 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Lace Wallet Pill */}
-            <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-healthcare-panel dark:bg-gray-700 border border-healthcare-border dark:border-gray-600 text-xs font-mono text-healthcare-subtext dark:text-gray-400">
-              <CheckCircle2 className="w-3.5 h-3.5 text-healthcare-accent" />
-              <span className="hidden md:inline font-sans text-healthcare-text dark:text-gray-200 font-medium text-[11px]">
-                {walletState.isConnected ? 'Lace Wallet Connected' : 'Connect Lace Wallet'}
-              </span>
-            </div>
+            {/* Interactive Lace Wallet Connect / Disconnect */}
+            {walletState.isConnected ? (
+              <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span className="font-semibold text-[11px]">Lace Wallet Connected</span>
+                <button
+                  onClick={handleDisconnectWallet}
+                  className="ml-1 text-[10px] text-gray-400 hover:text-red-500 font-mono transition-colors"
+                  title="Disconnect Wallet"
+                >
+                  ✕
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleConnectWallet}
+                disabled={isConnecting}
+                className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs shadow-healthcare transition-all duration-200 active:scale-95 disabled:opacity-50"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{isConnecting ? 'Connecting...' : 'Connect Lace Wallet'}</span>
+              </button>
+            )}
 
             {/* Dev Debug Link */}
             <button
