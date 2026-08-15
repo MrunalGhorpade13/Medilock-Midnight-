@@ -11,7 +11,7 @@
   </p>
 
   <p>
-    <a href="http://localhost:3000"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
+    <a href="https://medilock-midnight.vercel.app/"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
     <a href="https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing"><b>🎬 Demo Video Walkthrough</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
     <a href="https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e"><b>📋 Preprod Contract Explorer</b></a>
   </p>
@@ -33,7 +33,7 @@ MediLock allows patients to store critical emergency medical information (blood 
 
 ## 🌐 Live Demo & 🎬 Demo Video
 
-- **Live Demo Website:** [http://localhost:3000](http://localhost:3000)
+- **Live Demo Website:** [https://medilock-midnight.vercel.app/](https://medilock-midnight.vercel.app/)
 - **Demo Video Walkthrough:** [Watch Video on Google Drive](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 
 ## 📋 Contract Address
@@ -56,7 +56,7 @@ Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/c
 
 ### 📤 Submission Checklist
 - **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
-- **Live demo link**: ✅ Passed — `http://localhost:3000`
+- **Live demo link**: ✅ Passed — [`https://medilock-midnight.vercel.app/`](https://medilock-midnight.vercel.app/)
 - **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
 - **Demo video**: ✅ Passed — [Watch Demo Video Walkthrough](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 - **README documenting the privacy claim**: ✅ Passed — Documented in Privacy Claim section below.
