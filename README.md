@@ -121,39 +121,13 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 ---
 
-## 📷 Level 1 Verification Screenshots (Retained)
+## 📷 Level 1 Verification Proofs
 
-### 1. Successful Compile Output & Circuit Key Generation (WSL Terminal Verification)
+### 1. Compact Smart Contract Compilation & Circuit Proving Keys Proof (WSL Terminal)
 
 ![WSL Terminal Compact Compilation & Proving Keys](./docs/screenshots/06-wsl-compact-compilation-proof.png)
 
-```diff
-+ [PASS] compact compile contract/lockbox.compact contract/
-+
-+ ✓ Compiling 5 circuits:
-+   ✓ circuit "authorizeResponder" (k=13, rows=4856) [OK]
-+   ✓ circuit "register" (k=15, rows=16629) [OK]
-+   ✓ circuit "requestAccess" (k=13, rows=4569) [OK]
-+   ✓ circuit "revokeRecord" (k=13, rows=4573) [OK]
-+   ✓ circuit "revokeResponder" (k=13, rows=4852) [OK]
-+
-+ ✓ Compiled ZK Bytecode (.zkir): authorizeResponder, register, requestAccess, revokeRecord, revokeResponder
-+ ✓ Proving & Verifying Keys (.prover / .verifier) generated in contract/keys/
-+ ✓ Proof Server Docker Container: midnightntwrk/proof-server:latest [ACTIVE]
-+ Overall progress [====================] 5/5 PASSED
-```
-
-### 2. Automated Test & Type Verification Passing
-
-```diff
-+ [PASS] npx tsc --noEmit && npm test
-+
-+ ✓ contract/lockbox.compact (5 ZK circuits compiled successfully)
-+ ✓ src/services/lockbox-service.ts (Ledger state initialised)
-+ ✓ 0 type errors found [PASSED]
-```
-
-### 3. Contract Deployed on Midnight Preprod (Explorer Address Verification)
+### 2. Contract Deployed on Midnight Preprod (Explorer Verification)
 
 - **Network:** Midnight Preprod
 - **Deployment Method:** Contract deployed using the official Midnight Compact CLI & Standalone Deployment Harness.
