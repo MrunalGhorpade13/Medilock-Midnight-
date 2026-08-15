@@ -28,8 +28,8 @@ function loadContractAddress(): string {
       : null;
     if (stored) return stored;
   } catch { /* ignore */ }
-  // Default simulated address (replaced by deploy script in lockbox-service.ts directly)
-  return '0x_lockbox_contract_7f8a9b0c1d2e3f4a5b6c7d8e9f0a';
+  // Default Midnight Preprod Address
+  return 'mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c';
 }
 
 export class LockboxService {
