@@ -1,6 +1,15 @@
-# MediLock — Zero-Knowledge Emergency Medical Lockbox
+<div align="center">
+  <img src="./docs/assets/logo.png" alt="MediLock Logo" width="180" />
+  <h1>MediLock</h1>
+  <p><b>Zero-Knowledge Emergency Medical Lockbox built on Midnight Network</b></p>
 
-### 🌐 [Live Demo Website](http://localhost:3000) &nbsp;&nbsp;•&nbsp;&nbsp; 📋 [Preprod Contract Explorer](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+  <a href="http://localhost:3000"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
+  <a href="https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e"><b>📋 Preprod Contract Explorer</b></a>
+</div>
+
+<br />
+
+---
 
 Confidential, production-grade emergency medical lockbox built on the **Midnight Network** with Zero-Knowledge cryptography (`Compact v0.23`).
 
@@ -173,9 +182,9 @@ Open `http://localhost:3000` in your browser.
 ┌──────────────────────────────────────────┐         ZK Proof          ┌─────────────────────────────────────────────┐
 │ Private Witness Inputs (Off-Chain):      │ ────────────────────────> │ Public Ledger State (On-Chain):             │
 │ • Full Patient Vitals (Blood, Allergies) │                           │ • Owner Commitment (owner)                  │
-│ • Owner Secret Key                       │                           │ • Record Commitment (recordCommitment)      │
-│ • Responder Secret Key                   │                           │ • Record State (state: ACTIVE/REVOKED)      │
-│ • Commitment Salt Randomness             │                           │ • Anonymous Access Counter (accessCount)    │
+│ • Owner Secret Key                       │                           │ • Responder Secret Key                      │
+│ • Commitment Salt Randomness             │                           │ • Record State (state: ACTIVE/REVOKED)      │
+│                                          │                           │ • Anonymous Access Counter (accessCount)    │
 └──────────────────────────────────────────┘                           └─────────────────────────────────────────────┘
 ```
 
@@ -190,6 +199,7 @@ Medilock-Midnight/
 │   ├── zkir/                   ← Compiled ZK circuit bytecode
 │   └── keys/                   ← Proving & verifying keys
 ├── docs/
+│   ├── assets/                 ← Application logo branding
 │   └── screenshots/            ← Application verification screenshots
 ├── scripts/
 │   ├── deploy-contract.ts      ← Standalone deployment script
