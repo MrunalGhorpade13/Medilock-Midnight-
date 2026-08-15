@@ -23,6 +23,7 @@ import {
   PublicLedgerState,
 } from '@contract/types';
 import { midnightWallet } from '../services/wallet';
+import { midnightProvider } from '../services/midnight-provider';
 
 interface PatientViewProps {
   onStateUpdated: () => void;
@@ -83,6 +84,12 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
     setSaveSuccess(false);
 
     try {
+      // Trigger Lace Wallet authentication popup if mnLace provider is available
+      const midnightGlobal = (window as any).midnight;
+      if (midnightGlobal && midnightGlobal.mnLace) {
+        await midnightProvider.connectLaceWallet();
+      }
+
       const updatedPayload: MedicalPayload = {
         fullName: fullName.trim(),
         dateOfBirth: dateOfBirth.trim(),
