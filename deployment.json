@@ -1,7 +1,7 @@
 {
-  "contractAddress": "mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c",
+  "contractAddress": "0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e",
   "network": "testnet",
   "nodeUrl": "https://rpc.testnet-02.midnight.network",
   "indexerUrl": "https://indexer.testnet-02.midnight.network/api/v1/graphql",
-  "deployedAt": "2026-08-16T03:02:00.000Z"
+  "deployedAt": "2026-08-16T03:00:00.000Z"
 }
