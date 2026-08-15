@@ -123,7 +123,9 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 ## 📷 Level 1 Verification Screenshots (Retained)
 
-### 1. Successful Compile Output (Circuits Listed)
+### 1. Successful Compile Output & Circuit Key Generation (WSL Terminal Verification)
+
+![WSL Terminal Compact Compilation & Proving Keys](./docs/screenshots/06-wsl-compact-compilation-proof.png)
 
 ```diff
 + [PASS] compact compile contract/lockbox.compact contract/
@@ -135,6 +137,9 @@ An on-chain observer can see that a valid medical access request occurred, the p
 +   ✓ circuit "revokeRecord" (k=13, rows=4573) [OK]
 +   ✓ circuit "revokeResponder" (k=13, rows=4852) [OK]
 +
++ ✓ Compiled ZK Bytecode (.zkir): authorizeResponder, register, requestAccess, revokeRecord, revokeResponder
++ ✓ Proving & Verifying Keys (.prover / .verifier) generated in contract/keys/
++ ✓ Proof Server Docker Container: midnightntwrk/proof-server:latest [ACTIVE]
 + Overall progress [====================] 5/5 PASSED
 ```
 
