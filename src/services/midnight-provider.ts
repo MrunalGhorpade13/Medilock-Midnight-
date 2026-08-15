@@ -77,18 +77,40 @@ class MidnightProviderService {
 
       // Invoke the official Lace enable() method to trigger the Chrome popup window
       const wallet = await laceConnector.enable();
-      const state = await wallet.state();
-      const uris = await wallet.serviceUriConfig();
+
+      let stateAddress = 'mn_lace_active_account';
+      let network = this.config.network;
+
+      try {
+        if (wallet && typeof wallet.state === 'function') {
+          const st = await wallet.state();
+          stateAddress = st?.address || stateAddress;
+        } else if (wallet && wallet.state && typeof wallet.state === 'object') {
+          stateAddress = wallet.state.address || stateAddress;
+        } else if (wallet && wallet.address) {
+          stateAddress = wallet.address;
+        }
+      } catch (stErr) {
+        console.warn('Could not read wallet.state(), using active connection:', stErr);
+      }
+
+      try {
+        if (wallet && typeof wallet.serviceUriConfig === 'function') {
+          const uris = await wallet.serviceUriConfig();
+          if (uris?.network) network = uris.network;
+          if (uris?.proofServerUri) this.config.proofServerUri = uris.proofServerUri;
+          if (uris?.indexerUri) this.config.indexerUri = uris.indexerUri;
+          if (uris?.nodeUri) this.config.nodeUri = uris.nodeUri;
+        }
+      } catch (uriErr) {
+        console.warn('Could not read serviceUriConfig(), using defaults:', uriErr);
+      }
 
       this.walletState = {
         isConnected: true,
-        walletAddress: state.address || 'mn_lace_active_account',
-        network: uris.network || this.config.network,
+        walletAddress: stateAddress,
+        network: network,
       };
-
-      if (uris.proofServerUri) this.config.proofServerUri = uris.proofServerUri;
-      if (uris.indexerUri) this.config.indexerUri = uris.indexerUri;
-      if (uris.nodeUri) this.config.nodeUri = uris.nodeUri;
 
       return this.walletState;
     } catch (err: any) {
