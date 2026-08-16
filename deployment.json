@@ -1,8 +1,7 @@
 {
-  "contractAddress": "mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c",
+  "contractAddress": "mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj",
   "network": "preprod",
   "nodeUrl": "https://rpc.preprod.midnight.network",
   "indexerUrl": "https://indexer.preprod.midnight.network/api/v1/graphql",
-  "proofServerUrl": "https://proof-server.preprod.midnight.network",
-  "deployedAt": "2026-08-16T03:00:00.000Z"
+  "deployedAt": "2026-08-16T08:23:38.956Z"
 }
