@@ -34,10 +34,10 @@ class MidnightWalletService {
 
   public getActiveAccount(): MidnightWalletAccount {
     const patientWallet: MidnightWalletAccount = {
-      address: 'mn_t1_9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c3d2e1f0',
-      name: `${patientName} (Patient)`,
+      address: 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj',
+      name: `${patientName} (1AM Wallet)`,
       network: 'Midnight Testnet',
-      shieldedBalance: '1,450.00 tDUST',
+      shieldedBalance: '5,000.00 tNIGHT (DUST Sponsored)',
       publicKeyHex: '0x_patient_pk_8877665544332211',
       secretKeyHex: '0x_patient_sk_9f8a7b6c5d4e3f2a1b0c9d8e7f6a5b4c',
     };

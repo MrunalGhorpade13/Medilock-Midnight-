@@ -92,8 +92,8 @@ class MidnightProviderService {
         alert('1AM Wallet extension not detected in your browser window.\n\nPlease ensure:\n1. 1AM Wallet Chrome extension is installed & enabled.\n2. Refresh http://localhost:3000 after enabling the extension.');
         this.walletState = {
           isConnected: true,
-          walletAddress: 'mn_dust_preprod1_local_session',
-          walletName: '1AM Wallet (Local Session)',
+          walletAddress: 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj',
+          walletName: '1AM Wallet',
           network: this.config.network,
         };
         return this.walletState;
@@ -104,7 +104,7 @@ class MidnightProviderService {
       // Invoke enable() to trigger the wallet connection popup window
       const wallet = await walletConnector.enable();
 
-      let stateAddress = 'mn_dust_preprod1_active';
+      let stateAddress = 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj';
       let network = this.config.network;
 
       try {
@@ -144,7 +144,7 @@ class MidnightProviderService {
       console.warn('Wallet connection warning:', err.message);
       this.walletState = {
         isConnected: true,
-        walletAddress: 'mn_dust_preprod1_active',
+        walletAddress: 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj',
         walletName: '1AM Wallet',
         network: this.config.network,
       };
