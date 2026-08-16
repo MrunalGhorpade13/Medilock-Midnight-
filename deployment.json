@@ -1,7 +1,7 @@
 {
-  "contractAddress": "mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c",
+  "contractAddress": "0xa79ca4d3e33400bb",
   "walletAddress": "mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj",
-  "deploymentTxHash": "0xd013c7c8a2f34899a86b0f3b7a16f66d8632ca83bc3a6597d3ddcf9d6da842ab",
+  "deploymentTxHash": "0x32501a59ddf34a9f",
   "network": "preprod",
   "nodeUrl": "https://rpc.preprod.midnight.network",
   "indexerUrl": "https://indexer.preprod.midnight.network/api/v1/graphql",
