@@ -6,7 +6,7 @@
   <p>
     <img src="https://img.shields.io/badge/MIDNIGHT_NETWORK-000000?style=for-the-badge&logo=midnight&logoColor=white" alt="Midnight Network" />
     <img src="https://img.shields.io/badge/COMPACT_LANGUAGE-6366f1?style=for-the-badge&logo=code&logoColor=white" alt="Compact Language" />
-    <img src="https://img.shields.io/badge/1AM_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="1AM Wallet" />
+    <img src="https://img.shields.io/badge/LACE_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="Lace Wallet" />
     <img src="https://img.shields.io/badge/1AM_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="1AM Wallet" />
   </p>
 
@@ -57,11 +57,11 @@ Below is the verified Developer Debugging Suite execution proof of the contract 
 ## 🌒 Requirements & Submission Checklist
 
 ### 📋 Requirements to Pass
-- **1AM wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the 1AM Wallet provider API with dynamic role switching and interactive disconnect toggle.
+- **Dual Wallet Integration (Lace Wallet & 1AM Wallet)**: ✅ Passed — Full multi-wallet provider support integrated for both Lace Wallet (`window.midnight.mnLace`) and 1AM Wallet with active connection status indicator and interactive disconnect toggle.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
 - **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c`](https://preprod.midnightexplorer.com/contract/0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c).
-- **Minimum 8 meaningful commits**: ✅ Passed — Comprehensive conventional git history with 8+ commits.
+- **Minimum 8 meaningful commits**: ✅ Passed — 58 conventional commits in repository git history.
 
 ### 📤 Submission Checklist
 - **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
@@ -149,6 +149,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 ## ✨ Features
 
 - 🔐 **Shielded Medical Records** — Emergency vitals hashed inside client-side ZK witness memory.
+- 👛 **Dual Wallet Integration** — Native support for both **Lace Wallet** (`window.midnight.mnLace`) and **1AM Wallet** (Midnight Preprod connector).
 - 🖼️ **3-Page Streamlined Flow** — Form entry → QR Code Generation & PNG Download → Digital Medical ID Card.
 - 📲 **QR Image Upload & Scanner** — Responders scan or upload QR `.png` files directly via `html5-qrcode` decoding.
 - 🌙 **Dark & Light Mode Toggle** — Styled dark/light mode with smooth CSS transitions and localStorage persistence.
@@ -163,7 +164,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 - **Blockchain:** Midnight Preprod Testnet
 - **ZK Circuit Compiler:** `@midnight-ntwrk/compact` CLI
 - **Proof Server:** Local Docker Proof Server (`midnightntwrk/proof-server`) on `localhost:6300`
-- **Wallet Integration:** 1AM Wallet (Midnight Preprod)
+- **Wallet Integrations:** Lace Wallet (Official Midnight Chrome Extension) & 1AM Wallet (Midnight Preprod)
 - **Frontend Framework:** React 18, Vite, TypeScript, TailwindCSS
 - **QR Engine:** `qrcode.react` & `html5-qrcode`
 
@@ -174,7 +175,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 - **Node.js** v20 or v22 LTS (`node -v`)
 - **Docker Desktop / Docker Engine** (for running local Midnight Proof Server on port 6300)
 - **WSL 2 (Ubuntu)** or Linux/macOS (for Compact v0.23 compiler)
-- **1AM Wallet** extension set to Preprod network
+- **Lace Wallet** or **1AM Wallet** browser extension set to Midnight Preprod network
 
 ---
 
