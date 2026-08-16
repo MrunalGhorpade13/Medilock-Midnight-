@@ -137,7 +137,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="font-semibold text-[11px]">Lace Wallet Connected</span>
+                <span className="font-semibold text-[11px]">{walletState.walletName || '1AM Wallet'} Connected</span>
                 <button
                   onClick={handleDisconnectWallet}
                   className="ml-1 text-[10px] text-gray-400 hover:text-red-500 font-mono transition-colors"
@@ -153,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs shadow-healthcare transition-all duration-200 active:scale-95 disabled:opacity-50"
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>{isConnecting ? 'Connecting...' : 'Connect Lace Wallet'}</span>
+                <span>{isConnecting ? 'Connecting...' : 'Connect 1AM Wallet'}</span>
               </button>
             )}
 

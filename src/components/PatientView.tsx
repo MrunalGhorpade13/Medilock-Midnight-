@@ -84,7 +84,7 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
     setSaveSuccess(false);
 
     try {
-      // Trigger Lace Wallet authentication popup & state sync
+      // Trigger 1AM Wallet authentication popup & state sync
       await midnightProvider.connectLaceWallet();
 
       const updatedPayload: MedicalPayload = {

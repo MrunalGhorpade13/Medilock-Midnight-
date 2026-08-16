@@ -25,7 +25,8 @@ const TESTNET_CONFIG = {
   networkId: 'testnet',
   node:      'https://rpc.testnet-02.midnight.network',
   indexer:   'https://indexer.testnet-02.midnight.network/api/v1/graphql',
-  proofServer: 'http://localhost:6300',
+  // Public Midnight hosted proof server — no Docker required!
+  proofServer: process.env.VITE_PROOF_SERVER_URL || 'https://proof-server.testnet-02.midnight.network',
 };
 
 // ─── Check compiled artifacts exist ─────────────────────────────────────────
