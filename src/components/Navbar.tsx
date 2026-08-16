@@ -25,8 +25,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenOnboarding,
 }) => {
   const [walletState, setWalletState] = useState<MidnightWalletState>({ isConnected: false });
-  const [isConnecting, setIsConnecting] = useState<string | null>(null); // '1am' | 'lace' | null
+  const [isConnecting, setIsConnecting] = useState<string | null>(null);
   const [showWalletMenu, setShowWalletMenu] = useState(false);
+  const [walletError, setWalletError] = useState<string | null>(null);
+  const [availableWallets, setAvailableWallets] = useState<string[]>([]);
   const [isDark, setIsDark] = useState<boolean>(() => {
     return localStorage.getItem('medilock_theme') === 'dark';
   });
@@ -42,6 +44,23 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [isDark]);
 
+  // Detect which Midnight wallets are available in this browser
+  useEffect(() => {
+    const detectWallets = () => {
+      const mgr = (window as any).midnight;
+      if (mgr && typeof mgr === 'object') {
+        setAvailableWallets(Object.keys(mgr));
+        console.log('[Navbar] Available wallet keys:', Object.keys(mgr));
+      } else {
+        setAvailableWallets([]);
+      }
+    };
+    // Check immediately and again after a short delay (some wallets inject late)
+    detectWallets();
+    const timer = setTimeout(detectWallets, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Close menu when clicking outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -56,10 +75,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const connectWith1AM = async () => {
     setShowWalletMenu(false);
+    setWalletError(null);
     setIsConnecting('1am');
     try {
       const state = await midnightProvider.connect1AMWallet();
       setWalletState(state);
+      if (state.error) setWalletError(state.error);
+    } catch (e: any) {
+      setWalletError(e?.message || '1AM Wallet connection failed');
     } finally {
       setIsConnecting(null);
     }
@@ -67,10 +90,14 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const connectWithLace = async () => {
     setShowWalletMenu(false);
+    setWalletError(null);
     setIsConnecting('lace');
     try {
       const state = await midnightProvider.connectLaceWallet();
       setWalletState(state);
+      if (state.error) setWalletError(state.error);
+    } catch (e: any) {
+      setWalletError(e?.message || 'Lace Wallet connection failed');
     } finally {
       setIsConnecting(null);
     }
@@ -161,6 +188,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
+            {/* Wallet Error Toast */}
+            {walletError && (
+              <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-xs text-red-700 dark:text-red-300 max-w-xs">
+                <span className="text-[11px] font-mono truncate" title={walletError}>⚠ {walletError}</span>
+                <button onClick={() => setWalletError(null)} className="text-[10px] ml-1 text-red-400 hover:text-red-600 font-bold flex-shrink-0">✕</button>
+              </div>
+            )}
+
             {/* Wallet Section */}
             {walletState.isConnected ? (
               /* Connected State */
@@ -206,6 +241,25 @@ export const Navbar: React.FC<NavbarProps> = ({
                       <p className="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-500 px-2 pt-1 pb-0.5 tracking-wider">
                         Choose Wallet
                       </p>
+
+                      {/* No wallet detected warning */}
+                      {availableWallets.length === 0 && (
+                        <div className="px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl mx-1 mb-1">
+                          <p className="text-[10px] font-bold text-amber-700 dark:text-amber-400">⚠️ No wallet detected</p>
+                          <p className="text-[9px] text-amber-600 dark:text-amber-500 mt-0.5">Install 1AM or Lace wallet extension, then reload.</p>
+                          <button
+                            onClick={() => window.location.reload()}
+                            className="mt-1.5 text-[10px] text-purple-600 font-bold underline"
+                          >↺ Reload page</button>
+                        </div>
+                      )}
+
+                      {/* Show detected wallet keys for debugging */}
+                      {availableWallets.length > 0 && (
+                        <p className="text-[9px] text-emerald-600 dark:text-emerald-400 px-2 pb-0.5 font-mono">
+                          ✓ Found: {availableWallets.join(', ')}
+                        </p>
+                      )}
 
                       {/* 1AM Wallet Option */}
                       <button
