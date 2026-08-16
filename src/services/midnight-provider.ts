@@ -101,12 +101,25 @@ class MidnightProviderService {
 
       console.log(`Connecting via: ${walletName}... Triggering extension popup.`);
 
-      // Invoke enable() to trigger the wallet connection popup window
-      const wallet = await walletConnector.enable();
+      // 1AM Wallet DApp connector API:
+      // Try .enable() — if not a function, use the connector object directly
+      let wallet: any = walletConnector;
+      if (typeof walletConnector.enable === 'function') {
+        try {
+          wallet = await walletConnector.enable();
+        } catch (enableErr) {
+          console.warn('walletConnector.enable() failed, using connector directly:', enableErr);
+          wallet = walletConnector;
+        }
+      } else {
+        console.log('walletConnector.enable is not a function — using connector directly (1AM Wallet API).');
+        wallet = walletConnector;
+      }
 
       let stateAddress = 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj';
       let network = this.config.network;
 
+      // Read wallet address from state()
       try {
         if (wallet && typeof wallet.state === 'function') {
           const st = await wallet.state();
@@ -120,6 +133,7 @@ class MidnightProviderService {
         console.warn('Could not read wallet.state():', stErr);
       }
 
+      // Read network config from serviceUriConfig()
       try {
         if (wallet && typeof wallet.serviceUriConfig === 'function') {
           const uris = await wallet.serviceUriConfig();
