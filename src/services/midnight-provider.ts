@@ -92,55 +92,81 @@ class MidnightProviderService {
    */
   private async connectViaConnector(connector: any, walletName: string): Promise<MidnightWalletState> {
     console.log(`[Wallet] Connecting via ${walletName}...`);
-    console.log('[Wallet] Connector keys:', Object.keys(connector));
+    const connectorKeys = Object.keys(connector);
+    console.log('[Wallet] Connector keys:', connectorKeys);
     console.log('[Wallet] connector.enable type:', typeof connector.enable);
 
     let api: any = connector;
 
-    // Call enable() — this is what triggers the wallet popup
+    // Try enable() if it exists - this is the popup trigger for older wallet versions
     if (typeof connector.enable === 'function') {
+      console.log(`[Wallet] Calling ${walletName}.enable() — popup should appear!`);
       try {
-        console.log(`[Wallet] Calling ${walletName}.enable() — popup should appear!`);
         api = await connector.enable.call(connector);
-        console.log('[Wallet] enable() succeeded. API keys:', api ? Object.keys(api) : 'null');
+        console.log('[Wallet] enable() resolved. API keys:', Object.keys(api || {}));
       } catch (err) {
-        console.warn('[Wallet] enable() threw, trying connector directly:', err);
+        console.warn('[Wallet] enable() threw:', err);
         api = connector;
       }
     } else {
-      console.log('[Wallet] No enable() — using connector directly as API');
+      // 1AM Wallet pattern: connector IS the API already
+      // The popup/approval appears when you call state() or proveTransaction()
+      console.log('[Wallet] No enable() found. Connector IS the API (1AM Wallet pattern).');
+      console.log('[Wallet] Available methods on connector:', connectorKeys.join(', '));
+      api = connector;
     }
 
-    // Store the API for transaction signing
+    // Store the API for later transaction signing
     this.walletApi = api;
 
-    // Read wallet address
+    // Call state() — for 1AM Wallet, THIS is what triggers the extension popup
     let address = 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj';
     let network: string = this.config.network;
 
-    try {
-      if (api && typeof api.state === 'function') {
+    if (typeof api.state === 'function') {
+      try {
+        console.log('[Wallet] Calling api.state() — this may trigger the wallet approval popup...');
         const st = await api.state();
-        console.log('[Wallet] state():', st);
+        console.log('[Wallet] state() result:', JSON.stringify(st));
         if (st?.address) address = st.address;
-      } else if (api?.address) {
-        address = api.address;
+        if (st?.blockchain) network = st.blockchain;
+      } catch (e: any) {
+        console.warn('[Wallet] state() threw:', e?.message || e);
+        // If state() is rejected, the user denied connection
+        if (e?.message?.toLowerCase().includes('denied') || e?.message?.toLowerCase().includes('rejected')) {
+          return { isConnected: false, error: 'Connection denied by user in wallet' };
+        }
       }
-    } catch (e) {
-      console.warn('[Wallet] Could not read state():', e);
+    } else {
+      console.log('[Wallet] No state() method. Checking alternate keys:', connectorKeys);
+      // Try any method that could give us account info
+      for (const key of ['getAddress', 'address', 'account', 'getAccount', 'coinPublicKey']) {
+        if (typeof api[key] === 'function') {
+          try {
+            const result = await api[key]();
+            console.log(`[Wallet] ${key}() result:`, result);
+            if (typeof result === 'string') { address = result; break; }
+            if (result?.address) { address = result.address; break; }
+          } catch { /* ignore */ }
+        } else if (typeof api[key] === 'string') {
+          address = api[key];
+          console.log(`[Wallet] Took address from api.${key}:`, address);
+          break;
+        }
+      }
     }
 
-    try {
-      if (api && typeof api.serviceUriConfig === 'function') {
+    if (typeof api.serviceUriConfig === 'function') {
+      try {
         const uris = await api.serviceUriConfig();
-        console.log('[Wallet] serviceUriConfig():', uris);
+        console.log('[Wallet] serviceUriConfig():', JSON.stringify(uris));
         if (uris?.network) network = uris.network;
         if (uris?.proofServerUri) this.config.proofServerUri = uris.proofServerUri;
         if (uris?.indexerUri) this.config.indexerUri = uris.indexerUri;
         if (uris?.nodeUri) this.config.nodeUri = uris.nodeUri;
+      } catch (e) {
+        console.warn('[Wallet] serviceUriConfig() threw:', e);
       }
-    } catch (e) {
-      console.warn('[Wallet] Could not read serviceUriConfig():', e);
     }
 
     this.walletState = {
@@ -150,6 +176,7 @@ class MidnightProviderService {
       network,
     };
 
+    console.log('[Wallet] ✅ Connected:', this.walletState);
     return this.walletState;
   }
 
