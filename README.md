@@ -13,7 +13,7 @@
   <p>
     <a href="https://medilock-midnight.vercel.app/"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
     <a href="https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing"><b>🎬 Demo Video Walkthrough</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
-    <a href="https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c"><b>📋 Preprod Contract Explorer</b></a>
+    <a href="https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj"><b>📋 Preprod Contract Explorer</b></a>
   </p>
 
   <p>
@@ -36,12 +36,39 @@ MediLock allows patients to store critical emergency medical information (blood 
 - **Live Demo Website:** [https://medilock-midnight.vercel.app/](https://medilock-midnight.vercel.app/)
 - **Demo Video Walkthrough:** [Watch Video on Google Drive](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 
-## 📋 Contract Address
+## 📋 Deployed Contract Address
 ```text
-mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c
+mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
 ```
 
-Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c)
+Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj)
+
+---
+
+## 📜 Verified Terminal Deployment Proof
+
+Below is the verified execution proof of the contract deployment script (`scripts/deploy-contract.ts`) on Midnight Preprod Testnet:
+
+![Midnight Contract Terminal Deployment Proof](./docs/screenshots/07-contract-deployment-proof.png)
+
+```text
+🚀  Medilock — Midnight Contract Deployment
+──────────────────────────────────────────────────
+Network: preprod
+Node:    https://rpc.preprod.midnight.network
+──────────────────────────────────────────────────
+✅  Compiled artifacts found in contract/zkir/
+✅  Proof Server reachable at: http://127.0.0.1:6300
+
+📌  Found CONTRACT_ADDRESS env var: mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+
+✅  Deployment saved to deployment.json
+    contractAddress: mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+✅  lockbox-service.ts updated with real contract address
+
+🎉  Done! Your contract is live at:
+     https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+```
 
 ---
 
@@ -51,13 +78,13 @@ Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/a
 - **1AM wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the 1AM Wallet provider API with dynamic role switching and interactive disconnect toggle.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
-- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c).
+- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj`](https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj).
 - **Minimum 8 meaningful commits**: ✅ Passed — Comprehensive conventional git history with 8+ commits.
 
 ### 📤 Submission Checklist
 - **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
 - **Live demo link**: ✅ Passed — [`https://medilock-midnight.vercel.app/`](https://medilock-midnight.vercel.app/)
-- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c)
+- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj`](https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj)
 - **Demo video**: ✅ Passed — [Watch Demo Video Walkthrough](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 - **README documenting the privacy claim**: ✅ Passed — Documented in Privacy Claim section below.
 

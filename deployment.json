@@ -3,5 +3,5 @@
   "network": "preprod",
   "nodeUrl": "https://rpc.preprod.midnight.network",
   "indexerUrl": "https://indexer.preprod.midnight.network/api/v1/graphql",
-  "deployedAt": "2026-08-16T08:23:38.956Z"
+  "deployedAt": "2026-08-16T08:28:46.271Z"
 }
