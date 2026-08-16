@@ -7,6 +7,8 @@ import {
   CheckCircle2,
   Sun,
   Moon,
+  Wallet,
+  ChevronDown,
 } from 'lucide-react';
 import { AppMode } from '@contract/types';
 import { midnightProvider, MidnightWalletState } from '../services/midnight-provider';
@@ -23,13 +25,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenOnboarding,
 }) => {
   const [walletState, setWalletState] = useState<MidnightWalletState>({ isConnected: false });
-  const [isConnecting, setIsConnecting] = useState<boolean>(false);
+  const [isConnecting, setIsConnecting] = useState<string | null>(null); // '1am' | 'lace' | null
+  const [showWalletMenu, setShowWalletMenu] = useState(false);
   const [isDark, setIsDark] = useState<boolean>(() => {
-    // Restore persisted preference, default to light
     return localStorage.getItem('medilock_theme') === 'dark';
   });
 
-  // Apply / remove dark class on <html> whenever isDark changes
   useEffect(() => {
     const root = document.documentElement;
     if (isDark) {
@@ -41,13 +42,37 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [isDark]);
 
-  const handleConnectWallet = async () => {
-    setIsConnecting(true);
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('#wallet-menu-container')) {
+        setShowWalletMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const connectWith1AM = async () => {
+    setShowWalletMenu(false);
+    setIsConnecting('1am');
     try {
-      const state = await midnightProvider.connectWallet();
+      const state = await midnightProvider.connect1AMWallet();
       setWalletState(state);
     } finally {
-      setIsConnecting(false);
+      setIsConnecting(null);
+    }
+  };
+
+  const connectWithLace = async () => {
+    setShowWalletMenu(false);
+    setIsConnecting('lace');
+    try {
+      const state = await midnightProvider.connectLaceWallet();
+      setWalletState(state);
+    } finally {
+      setIsConnecting(null);
     }
   };
 
@@ -55,6 +80,12 @@ export const Navbar: React.FC<NavbarProps> = ({
     const state = midnightProvider.disconnectWallet();
     setWalletState(state);
   };
+
+  const connectingLabel = isConnecting === '1am'
+    ? 'Connecting 1AM...'
+    : isConnecting === 'lace'
+    ? 'Connecting Lace...'
+    : null;
 
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-healthcare-border dark:border-gray-700 shadow-healthcare transition-colors duration-300">
@@ -130,14 +161,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Interactive Lace Wallet Connect / Disconnect */}
+            {/* Wallet Section */}
             {walletState.isConnected ? (
+              /* Connected State */
               <div className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-800 dark:text-emerald-300">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
-                <span className="font-semibold text-[11px]">{walletState.walletName || '1AM Wallet'} Connected</span>
+                <span className="font-semibold text-[11px]">{walletState.walletName || 'Wallet'} Connected</span>
                 <button
                   onClick={handleDisconnectWallet}
                   className="ml-1 text-[10px] text-gray-400 hover:text-red-500 font-mono transition-colors"
@@ -147,14 +179,65 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
               </div>
             ) : (
-              <button
-                onClick={handleConnectWallet}
-                disabled={isConnecting}
-                className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs shadow-healthcare transition-all duration-200 active:scale-95 disabled:opacity-50"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>{isConnecting ? 'Connecting...' : 'Connect 1AM Wallet'}</span>
-              </button>
+              /* Wallet Connect Dropdown */
+              <div id="wallet-menu-container" className="relative">
+                {/* Main Connect Button / Loading */}
+                {isConnecting ? (
+                  <div className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-purple-100 dark:bg-purple-900/40 border border-purple-200 text-purple-700 text-xs font-medium">
+                    <div className="w-3.5 h-3.5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                    <span>{connectingLabel}</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setShowWalletMenu(prev => !prev)}
+                    className="flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-medium text-xs shadow-healthcare transition-all duration-200 active:scale-95"
+                    id="wallet-connect-btn"
+                  >
+                    <Wallet className="w-3.5 h-3.5" />
+                    <span>Connect Wallet</span>
+                    <ChevronDown className={`w-3 h-3 transition-transform ${showWalletMenu ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
+
+                {/* Dropdown Menu */}
+                {showWalletMenu && !isConnecting && (
+                  <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl z-50 overflow-hidden">
+                    <div className="p-2 space-y-1">
+                      <p className="text-[10px] uppercase font-bold text-gray-400 dark:text-gray-500 px-2 pt-1 pb-0.5 tracking-wider">
+                        Choose Wallet
+                      </p>
+
+                      {/* 1AM Wallet Option */}
+                      <button
+                        onClick={connectWith1AM}
+                        className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors text-left group"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center flex-shrink-0">
+                          <Wallet className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-gray-800 dark:text-gray-100">1AM Wallet</p>
+                          <p className="text-[10px] text-gray-400 dark:text-gray-500">Midnight native</p>
+                        </div>
+                      </button>
+
+                      {/* Lace Wallet Option */}
+                      <button
+                        onClick={connectWithLace}
+                        className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors text-left group"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle2 className="w-4 h-4 text-white" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-gray-800 dark:text-gray-100">Lace Wallet</p>
+                          <p className="text-[10px] text-gray-400 dark:text-gray-500">IOG / Cardano</p>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Dev Debug Link */}
