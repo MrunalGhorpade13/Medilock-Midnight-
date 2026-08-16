@@ -1,7 +1,8 @@
 {
   "contractAddress": "mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c",
-  "network": "testnet",
-  "nodeUrl": "https://rpc.testnet-02.midnight.network",
-  "indexerUrl": "https://indexer.testnet-02.midnight.network/api/v1/graphql",
+  "network": "preprod",
+  "nodeUrl": "https://rpc.preprod.midnight.network",
+  "indexerUrl": "https://indexer.preprod.midnight.network/api/v1/graphql",
+  "proofServerUrl": "https://proof-server.preprod.midnight.network",
   "deployedAt": "2026-08-16T03:00:00.000Z"
 }

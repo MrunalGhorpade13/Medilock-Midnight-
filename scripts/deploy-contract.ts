@@ -22,11 +22,10 @@ const ROOT = path.resolve(__dirname, '..');
 
 // ─── Testnet Configuration ───────────────────────────────────────────────────
 const TESTNET_CONFIG = {
-  networkId: 'testnet',
-  node:      'https://rpc.testnet-02.midnight.network',
-  indexer:   'https://indexer.testnet-02.midnight.network/api/v1/graphql',
-  // Public Midnight hosted proof server — no Docker required!
-  proofServer: process.env.VITE_PROOF_SERVER_URL || 'https://proof-server.testnet-02.midnight.network',
+  networkId: 'preprod',
+  node:      process.env.VITE_MIDNIGHT_NODE_URL || 'https://rpc.preprod.midnight.network',
+  indexer:   process.env.VITE_MIDNIGHT_INDEXER_URL || 'https://indexer.preprod.midnight.network/api/v1/graphql',
+  proofServer: process.env.VITE_PROOF_SERVER_URL || 'https://proof-server.preprod.midnight.network',
 };
 
 // ─── Check compiled artifacts exist ─────────────────────────────────────────
