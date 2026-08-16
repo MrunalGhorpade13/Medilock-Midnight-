@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/badge/MIDNIGHT_NETWORK-000000?style=for-the-badge&logo=midnight&logoColor=white" alt="Midnight Network" />
     <img src="https://img.shields.io/badge/COMPACT_LANGUAGE-6366f1?style=for-the-badge&logo=code&logoColor=white" alt="Compact Language" />
     <img src="https://img.shields.io/badge/1AM_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="1AM Wallet" />
-    <img src="https://img.shields.io/badge/1AM_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="1AM Wallet" />
+    <img src="https://img.shields.io/badge/LACE_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="Lace Wallet" />
   </p>
 
   <p>
