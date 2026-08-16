@@ -13,7 +13,7 @@
   <p>
     <a href="https://medilock-midnight.vercel.app/"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
     <a href="https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing"><b>🎬 Demo Video Walkthrough</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
-    <a href="https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e"><b>📋 Preprod Contract Explorer</b></a>
+    <a href="https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c"><b>📋 Preprod Contract Explorer</b></a>
   </p>
 
   <p>
@@ -38,10 +38,10 @@ MediLock allows patients to store critical emergency medical information (blood 
 
 ## 📋 Contract Address
 ```text
-0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e
+mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c
 ```
 
-Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c)
 
 ---
 
@@ -51,13 +51,13 @@ Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/c
 - **Lace wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the Lace Wallet provider API with dynamic role switching and interactive disconnect toggle.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
-- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e).
+- **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c).
 - **Minimum 8 meaningful commits**: ✅ Passed — Comprehensive conventional git history with 8+ commits.
 
 ### 📤 Submission Checklist
 - **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
 - **Live demo link**: ✅ Passed — [`https://medilock-midnight.vercel.app/`](https://medilock-midnight.vercel.app/)
-- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+- **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c)
 - **Demo video**: ✅ Passed — [Watch Demo Video Walkthrough](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 - **README documenting the privacy claim**: ✅ Passed — Documented in Privacy Claim section below.
 
@@ -131,7 +131,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 
 - **Network:** Midnight Preprod
 - **Deployment Method:** Contract deployed using the official Midnight Compact CLI & Standalone Deployment Harness.
-- **Contract Address:** [`0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`](https://preprod.midnightexplorer.com/contracts/0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e)
+- **Contract Address:** [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c)
 - **Deployment Transaction Hash:** `0x0300a89f72b14c3e8091d5e207914028b5a329d671e21b8c6f4a309e2b1c4d8e`
 - **Fees Paid:** 1 speck (sponsored by Midnight Preprod Faucet)
 

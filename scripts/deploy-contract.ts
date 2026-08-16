@@ -141,7 +141,7 @@ async function main(): Promise<void> {
     saveDeployment(envAddress);
     updateLockboxService(envAddress);
     console.log('\n🎉  Done! Your contract is live at:');
-    console.log(`     https://explorer.midnight.network/contract/${envAddress}`);
+    console.log(`     https://preprod.midnightexplorer.com/address/${envAddress}`);
   } else {
     console.log('\n💡  Tip: To auto-save an address, run:');
     console.log('     CONTRACT_ADDRESS=<your_address> npx tsx scripts/deploy-contract.ts');
