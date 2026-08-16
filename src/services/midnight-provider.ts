@@ -101,20 +101,9 @@ class MidnightProviderService {
 
       console.log(`Connecting via: ${walletName}... Triggering extension popup.`);
 
-      // 1AM Wallet DApp connector API:
-      // Try .enable() — if not a function, use the connector object directly
-      let wallet: any = walletConnector;
-      if (typeof walletConnector.enable === 'function') {
-        try {
-          wallet = await walletConnector.enable();
-        } catch (enableErr) {
-          console.warn('walletConnector.enable() failed, using connector directly:', enableErr);
-          wallet = walletConnector;
-        }
-      } else {
-        console.log('walletConnector.enable is not a function — using connector directly (1AM Wallet API).');
-        wallet = walletConnector;
-      }
+      // 1AM Wallet DApp connector API: the connector object IS the wallet API.
+      // Do NOT call .enable() — this is the Lace/Cardano pattern, not 1AM Wallet.
+      const wallet: any = walletConnector;
 
       let stateAddress = 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj';
       let network = this.config.network;
