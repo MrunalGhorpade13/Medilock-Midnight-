@@ -10,6 +10,8 @@ import {
   ZkProofResult
 } from '@contract/types';
 
+import { registerMedicalRecordOnChain } from './onchain-service';
+
 export interface QrCodePayload {
   contractAddress: string;
   recordCommitment: string;
@@ -60,6 +62,19 @@ export class LockboxService {
     ownerSecretKeyHex: string,
     payload: MedicalPayload
   ): Promise<{ ledgerState: PublicLedgerState; zkProof: ZkProofResult }> {
+    // 1. Do the on-chain wallet signing + tx submission 
+    // This triggers the wallet permission interaction and network delay
+    try {
+      const txHash = await registerMedicalRecordOnChain(
+        this.contractAddress, 
+        payload as unknown as Record<string, unknown>
+      );
+      console.log('[LockboxService] Main network txHash:', txHash);
+    } catch (e: any) {
+      console.warn('[LockboxService] On-chain submission bypassed or denied:', e.message);
+    }
+    
+    // 2. Perform the local state generation so the UI (simulated network state) updates immediately
     return lockboxSimulator.registerCircuit(ownerSecretKeyHex, payload);
   }
 
