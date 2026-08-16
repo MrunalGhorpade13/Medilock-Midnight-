@@ -56,12 +56,26 @@ class MidnightProviderService {
     try {
       const win = window as any;
 
-      // 1AM Wallet provider keys (primary)
-      const oneAmConnector =
+      // Dynamic inspection of window.midnight & window.cardano for 1AM Wallet
+      let oneAmConnector =
         win.midnight?.['1am'] ||
         win.midnight?.oneam ||
         win.midnight?.mnOneAm ||
-        win.oneam;
+        win.midnight?.['1AM'] ||
+        win.midnight?.oneAm ||
+        win.oneam ||
+        win.cardano?.['1am'] ||
+        win.cardano?.oneam;
+
+      // Search all keys under window.midnight if not found directly
+      if (!oneAmConnector && win.midnight && typeof win.midnight === 'object') {
+        const keys = Object.keys(win.midnight);
+        console.log('Available window.midnight keys:', keys);
+        const match = keys.find(k => k.toLowerCase().includes('1am') || k.toLowerCase().includes('oneam'));
+        if (match) {
+          oneAmConnector = win.midnight[match];
+        }
+      }
 
       // Lace Wallet provider keys (fallback)
       const laceConnector =
@@ -74,19 +88,20 @@ class MidnightProviderService {
       const walletName = oneAmConnector ? '1AM Wallet' : laceConnector ? 'Lace Wallet' : null;
 
       if (!walletConnector) {
-        console.warn('No Midnight wallet extension detected. Proceeding with local session.');
+        console.warn('No Midnight wallet extension (1AM Wallet) detected on window.midnight.');
+        alert('1AM Wallet extension not detected in your browser window.\n\nPlease ensure:\n1. 1AM Wallet Chrome extension is installed & enabled.\n2. Refresh http://localhost:3000 after enabling the extension.');
         this.walletState = {
           isConnected: true,
           walletAddress: 'mn_dust_preprod1_local_session',
-          walletName: '1AM Wallet (not detected)',
+          walletName: '1AM Wallet (Local Session)',
           network: this.config.network,
         };
         return this.walletState;
       }
 
-      console.log(`Connecting via: ${walletName}`);
+      console.log(`Connecting via: ${walletName}... Triggering extension popup.`);
 
-      // Invoke enable() to trigger the wallet popup
+      // Invoke enable() to trigger the wallet connection popup window
       const wallet = await walletConnector.enable();
 
       let stateAddress = 'mn_dust_preprod1_active';
