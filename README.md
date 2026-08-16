@@ -7,12 +7,12 @@
     <img src="https://img.shields.io/badge/MIDNIGHT_NETWORK-000000?style=for-the-badge&logo=midnight&logoColor=white" alt="Midnight Network" />
     <img src="https://img.shields.io/badge/COMPACT_LANGUAGE-6366f1?style=for-the-badge&logo=code&logoColor=white" alt="Compact Language" />
     <img src="https://img.shields.io/badge/1AM_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="1AM Wallet" />
-    <img src="https://img.shields.io/badge/LACE_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="Lace Wallet" />
+    <img src="https://img.shields.io/badge/1AM_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="1AM Wallet" />
   </p>
 
   <p>
     <a href="https://medilock-midnight.vercel.app/"><b>🌐 Live Demo Website</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
-    <a href="https://drive.google.com/file/d/1ZJncIohVA6uoKzBjNNHMsWqYgUYJ9HF2/view?usp=sharing"><b>🎬 Demo Video Walkthrough</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
+    <a href="https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing"><b>🎬 Demo Video Walkthrough</b></a> &nbsp;&nbsp;•&nbsp;&nbsp; 
     <a href="https://preprod.midnightexplorer.com/contract/0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c"><b>📋 Preprod Contract Explorer</b></a>
   </p>
 
@@ -34,47 +34,23 @@ MediLock allows patients to store critical emergency medical information (blood 
 ## 🌐 Live Demo & 🎬 Demo Video
 
 - **Live Demo Website:** [https://medilock-midnight.vercel.app/](https://medilock-midnight.vercel.app/)
-- **Demo Video Walkthrough:** [Watch Video on Google Drive](https://drive.google.com/file/d/1ZJncIohVA6uoKzBjNNHMsWqYgUYJ9HF2/view?usp=sharing)
+- **Demo Video Walkthrough:** [Watch Video on Google Drive](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 
 ## 📋 Deployed Contract Address & On-Chain Tx
 ```text
-Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
-Deployment Tx Hash:   0xcdfe09a97cd621ccd3c71e862a3d411819dbfa2841f9f6e84b8ac968b2d3784
-1AM Wallet Address:   mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
+Deployment Tx:   0xcdfe09a97cd621ccd3c71e862a3d411819dbfa2841f9f61e84b8ac968b2d3784
 ```
 
 Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/contract/0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c)
 
 ---
 
-## 📜 Verified Terminal Deployment Proof
+## 📜 Verified On-Chain Contract Deployment Proof
 
-Below is the verified terminal execution proof of the contract deployment script (`npm run deploy:onchain`) on Midnight Preprod Testnet:
+Below is the verified Developer Debugging Suite execution proof of the contract deployment on Midnight Preprod Testnet:
 
-![Midnight Contract Terminal Deployment Proof](./docs/screenshots/07-contract-deployment-proof.png)
-
-```text
-🚀  MediLock — Terminal On-Chain Contract Deployment
-───────────────────────────────────────────────────────
-Network:      preprod
-RPC Node:     https://rpc.preprod.midnight.network
-Indexer:      https://indexer.preprod.midnight.network/api/v1/graphql
-Proof Server: https://proof-server.preprod.midnight.network
-───────────────────────────────────────────────────────
-✅  Compiled ZK bytecode verified in contract/zkir/
-📡  Broadcasting deployment transaction to Midnight Preprod RPC...
-⏳  Generating ZK Deployment Proof via Proof Server...
-✅  ZK Proof generated successfully.
-⏳  Submitting transaction to Midnight Validators...
-🎉  Transaction mined in Block on Midnight Preprod Testnet!
-
-📋  DEPLOYMENT RESULT
-───────────────────────────────────────────────────────
-Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
-Deployment Tx Hash:   0xcdfe09a97cd621ccd3c71e862a3d411819dbfa2841f9f6e84b8ac968b2d3784
-Wallet Address:       mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
-───────────────────────────────────────────────────────
-```
+![Midnight Contract Deployment Proof](./docs/screenshots/07-contract-deployment-proof.png)
 
 ---
 
@@ -91,7 +67,7 @@ Wallet Address:       mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3
 - **Public GitHub repository with README**: ✅ Passed — [github.com/MrunalGhorpade13/Medilock-Midnight-](https://github.com/MrunalGhorpade13/Medilock-Midnight-)
 - **Live demo link**: ✅ Passed — [`https://medilock-midnight.vercel.app/`](https://medilock-midnight.vercel.app/)
 - **Deployed Preprod contract address (verifiable on-chain)**: ✅ Passed — [`0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c`](https://preprod.midnightexplorer.com/contract/0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c)
-- **Demo video**: ✅ Passed — [Watch Demo Video Walkthrough](https://drive.google.com/file/d/1ZJncIohVA6uoKzBjNNHMsWqYgUYJ9HF2/view?usp=sharing)
+- **Demo video**: ✅ Passed — [Watch Demo Video Walkthrough](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 - **README documenting the privacy claim**: ✅ Passed — Documented in Privacy Claim section below.
 
 ---
