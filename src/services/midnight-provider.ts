@@ -1,8 +1,7 @@
 /**
  * Midnight Provider & Wallet Integration Service
  * Supports 1AM Wallet (primary) and Lace Wallet (fallback)
- * Handles window.midnight DApp connector, local proof server (localhost:6300),
- * and Preprod Testnet network switching.
+ * Uses the Midnight DApp Connector protocol to trigger the wallet popup.
  */
 
 export interface MidnightNetworkConfig {
@@ -25,18 +24,14 @@ export type LaceWalletState = MidnightWalletState;
 class MidnightProviderService {
   private config: MidnightNetworkConfig;
   private walletState: MidnightWalletState = { isConnected: false };
+  private walletApi: any = null; // Holds the API returned by enable()
 
   constructor() {
-    const isUndeployed = import.meta.env.VITE_MIDNIGHT_NETWORK === 'undeployed';
     this.config = {
-      network: isUndeployed ? 'undeployed' : 'testnet',
+      network: 'testnet',
       proofServerUri: import.meta.env.VITE_PROOF_SERVER_URI || 'http://localhost:6300',
-      indexerUri: isUndeployed
-        ? 'http://localhost:8088/api/v1/graphql'
-        : 'https://indexer.testnet.midnight.network/api/v1/graphql',
-      nodeUri: isUndeployed
-        ? 'http://localhost:9944'
-        : 'https://rpc.testnet.midnight.network',
+      indexerUri: 'https://indexer.preprod.midnight.network/api/v1/graphql',
+      nodeUri: 'https://rpc.preprod.midnight.network',
     };
   }
 
@@ -48,138 +43,161 @@ class MidnightProviderService {
     return { ...this.walletState };
   }
 
+  public getWalletApi(): any {
+    return this.walletApi;
+  }
+
   /**
-   * Connects to the Midnight DApp wallet (1AM primary, Lace fallback)
-   * Checks window.midnight for all known Midnight wallet providers.
+   * Connects to the 1AM Wallet and triggers the extension approval popup.
+   * The Midnight DApp Connector protocol requires calling connector.enable()
+   * which opens the 1AM Wallet extension window asking user for permission.
    */
   public async connectLaceWallet(): Promise<LaceWalletState> {
+    const win = window as any;
+
+    // Step 1: Find the 1AM Wallet connector on window.midnight
+    let connector: any = null;
+    let walletName = '1AM Wallet';
+
+    // Try all known 1AM Wallet keys
+    const oneAmKeys = ['1am', '1AM', 'oneam', 'oneAm', 'mnOneAm'];
+    if (win.midnight && typeof win.midnight === 'object') {
+      // Log all available keys for debugging
+      const availableKeys = Object.keys(win.midnight);
+      console.log('[MediLock] window.midnight keys:', availableKeys);
+
+      for (const key of availableKeys) {
+        if (oneAmKeys.some(k => key.toLowerCase() === k.toLowerCase())) {
+          connector = win.midnight[key];
+          console.log(`[MediLock] Found 1AM Wallet at window.midnight['${key}']`);
+          break;
+        }
+      }
+
+      // If not found by name, take the first connector available
+      if (!connector && availableKeys.length > 0) {
+        const firstKey = availableKeys[0];
+        connector = win.midnight[firstKey];
+        walletName = firstKey;
+        console.log(`[MediLock] Using first available wallet: window.midnight['${firstKey}']`);
+      }
+    }
+
+    // Fallback: Lace-style connectors
+    if (!connector) {
+      connector = win.midnight?.mnLace || win.midnight?.lace || win.mnLace;
+      if (connector) walletName = 'Lace Wallet';
+    }
+
+    if (!connector) {
+      console.warn('[MediLock] No Midnight wallet extension found on window.midnight');
+      alert(
+        '1AM Wallet not detected!\n\n' +
+        'Please:\n' +
+        '1. Install the 1AM Wallet Chrome extension\n' +
+        '2. Set it to Preprod network\n' +
+        '3. Refresh this page'
+      );
+      return { isConnected: false, error: 'Wallet not found' };
+    }
+
+    // Step 2: Log all available methods on the connector
+    console.log('[MediLock] Connector methods:', Object.keys(connector));
+    console.log('[MediLock] Connector type:', typeof connector);
+    console.log('[MediLock] connector.enable type:', typeof connector.enable);
+    console.log('[MediLock] connector.isEnabled type:', typeof connector.isEnabled);
+
     try {
-      const win = window as any;
+      let api: any = null;
 
-      // Dynamic inspection of window.midnight & window.cardano for 1AM Wallet
-      let oneAmConnector =
-        win.midnight?.['1am'] ||
-        win.midnight?.oneam ||
-        win.midnight?.mnOneAm ||
-        win.midnight?.['1AM'] ||
-        win.midnight?.oneAm ||
-        win.oneam ||
-        win.cardano?.['1am'] ||
-        win.cardano?.oneam;
-
-      // Search all keys under window.midnight if not found directly
-      if (!oneAmConnector && win.midnight && typeof win.midnight === 'object') {
-        const keys = Object.keys(win.midnight);
-        console.log('Available window.midnight keys:', keys);
-        const match = keys.find(k => k.toLowerCase().includes('1am') || k.toLowerCase().includes('oneam'));
-        if (match) {
-          oneAmConnector = win.midnight[match];
-        }
+      // Step 3: Check if already enabled
+      if (typeof connector.isEnabled === 'function') {
+        const already = await connector.isEnabled();
+        console.log('[MediLock] isEnabled():', already);
       }
 
-      // Lace Wallet provider keys (fallback)
-      const laceConnector =
-        win.midnight?.mnLace ||
-        win.midnight?.lace ||
-        win.midnight?.midnight ||
-        win.mnLace;
-
-      const walletConnector = oneAmConnector || laceConnector;
-      const walletName = oneAmConnector ? '1AM Wallet' : laceConnector ? 'Lace Wallet' : null;
-
-      if (!walletConnector) {
-        console.warn('No Midnight wallet extension (1AM Wallet) detected on window.midnight.');
-        alert('1AM Wallet extension not detected in your browser window.\n\nPlease ensure:\n1. 1AM Wallet Chrome extension is installed & enabled.\n2. Refresh http://localhost:3000 after enabling the extension.');
-        this.walletState = {
-          isConnected: true,
-          walletAddress: 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj',
-          walletName: '1AM Wallet',
-          network: this.config.network,
-        };
-        return this.walletState;
+      // Step 4: Call enable() — this MUST trigger the 1AM Wallet popup
+      // Bind to connector to preserve 'this' context inside the extension
+      if (typeof connector.enable === 'function') {
+        console.log('[MediLock] Calling connector.enable() to trigger wallet popup...');
+        api = await connector.enable.call(connector);
+        console.log('[MediLock] enable() returned:', api);
+        console.log('[MediLock] API methods:', api ? Object.keys(api) : 'null');
+        this.walletApi = api;
+      } else {
+        // Connector itself is the API (some wallet implementations)
+        console.log('[MediLock] No enable() found — using connector as API directly');
+        api = connector;
+        this.walletApi = api;
       }
 
-      console.log(`Connecting via: ${walletName}... Triggering extension popup.`);
-
-      // 1AM Wallet DApp connector API: the connector object IS the wallet API.
-      // Do NOT call .enable() — this is the Lace/Cardano pattern, not 1AM Wallet.
-      const wallet: any = walletConnector;
-
+      // Step 5: Read wallet address
       let stateAddress = 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj';
-      let network = this.config.network;
+      let network: string = this.config.network;
 
-      // Read wallet address from state()
-      try {
-        if (wallet && typeof wallet.state === 'function') {
-          const st = await wallet.state();
-          stateAddress = st?.address || stateAddress;
-        } else if (wallet && wallet.state && typeof wallet.state === 'object') {
-          stateAddress = wallet.state.address || stateAddress;
-        } else if (wallet && wallet.address) {
-          stateAddress = wallet.address;
+      if (api) {
+        try {
+          if (typeof api.state === 'function') {
+            const st = await api.state();
+            console.log('[MediLock] wallet.state():', st);
+            if (st?.address) stateAddress = st.address;
+          } else if (api.address) {
+            stateAddress = api.address;
+          }
+        } catch (e) {
+          console.warn('[MediLock] Could not read state():', e);
         }
-      } catch (stErr) {
-        console.warn('Could not read wallet.state():', stErr);
-      }
 
-      // Read network config from serviceUriConfig()
-      try {
-        if (wallet && typeof wallet.serviceUriConfig === 'function') {
-          const uris = await wallet.serviceUriConfig();
-          if (uris?.network) network = uris.network;
-          if (uris?.proofServerUri) this.config.proofServerUri = uris.proofServerUri;
-          if (uris?.indexerUri) this.config.indexerUri = uris.indexerUri;
-          if (uris?.nodeUri) this.config.nodeUri = uris.nodeUri;
+        try {
+          if (typeof api.serviceUriConfig === 'function') {
+            const uris = await api.serviceUriConfig();
+            console.log('[MediLock] serviceUriConfig():', uris);
+            if (uris?.network) network = uris.network;
+            if (uris?.proofServerUri) this.config.proofServerUri = uris.proofServerUri;
+            if (uris?.indexerUri) this.config.indexerUri = uris.indexerUri;
+            if (uris?.nodeUri) this.config.nodeUri = uris.nodeUri;
+          }
+        } catch (e) {
+          console.warn('[MediLock] Could not read serviceUriConfig():', e);
         }
-      } catch (uriErr) {
-        console.warn('Could not read serviceUriConfig():', uriErr);
       }
 
       this.walletState = {
         isConnected: true,
         walletAddress: stateAddress,
-        walletName: walletName || '1AM Wallet',
-        network: network,
+        walletName,
+        network,
       };
 
       return this.walletState;
+
     } catch (err: any) {
-      console.warn('Wallet connection warning:', err.message);
-      this.walletState = {
-        isConnected: true,
-        walletAddress: 'mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj',
-        walletName: '1AM Wallet',
-        network: this.config.network,
+      console.error('[MediLock] Wallet connection error:', err);
+      return {
+        isConnected: false,
+        error: err?.message || 'Connection failed',
       };
-      return this.walletState;
     }
   }
 
-  /**
-   * Primary connection method: connects to 1AM Wallet (or Lace Wallet as fallback)
-   */
+  /** Primary connection method */
   public async connectWallet(): Promise<MidnightWalletState> {
     return this.connectLaceWallet();
   }
 
-  /**
-   * Disconnects the wallet session
-   */
+  /** Disconnects the wallet session */
   public disconnectWallet(): MidnightWalletState {
     this.walletState = { isConnected: false };
+    this.walletApi = null;
     return this.walletState;
   }
 
-  /**
-   * Disconnects the wallet session (backward compatible)
-   */
+  /** Backward compatible alias */
   public disconnectLaceWallet(): MidnightWalletState {
     return this.disconnectWallet();
   }
 
-  /**
-   * Evaluates if local Proof Server is reachable at localhost:6300
-   */
+  /** Checks if local Proof Server is reachable */
   public async checkProofServerHealth(): Promise<boolean> {
     try {
       const res = await fetch(`${this.config.proofServerUri}/health`, { method: 'GET' });
