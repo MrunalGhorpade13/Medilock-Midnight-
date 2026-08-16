@@ -74,6 +74,23 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const connectWith1AM = async () => {
+    // SYNCHRONOUS KICK: Some aggressive browser environments block popups if 
+    // the request happens after a React state update yields the event loop.
+    // This executes in the exact same tick as the user click event.
+    try {
+      const win = window as any;
+      if (win.midnight) {
+        const mgr = win.midnight;
+        const key = Object.keys(mgr).find(k => k.toLowerCase().includes('1am'));
+        if (key && mgr[key]) {
+          console.log('[Navbar] Synchronous kick for 1AM wallet popup');
+          const api = mgr[key];
+          if (typeof api.state === 'function') api.state().catch(() => {});
+          else if (typeof api.enable === 'function') api.enable().catch(() => {});
+        }
+      }
+    } catch { /* ignore synchronous kick errors */ }
+
     setShowWalletMenu(false);
     setWalletError(null);
     setIsConnecting('1am');
@@ -89,6 +106,22 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const connectWithLace = async () => {
+    // SYNCHRONOUS KICK for Lace
+    try {
+      const win = window as any;
+      if (win.midnight) {
+        const mgr = win.midnight;
+        const laceKeys = ['mnLace', 'lace', 'midnight', 'mnlace'];
+        const key = laceKeys.find(k => mgr[k]);
+        if (key && mgr[key]) {
+          console.log('[Navbar] Synchronous kick for Lace wallet popup');
+          const api = mgr[key];
+          if (typeof api.enable === 'function') api.enable().catch(() => {});
+          else if (typeof api.state === 'function') api.state().catch(() => {});
+        }
+      }
+    } catch { /* ignore synchronous kick errors */ }
+
     setShowWalletMenu(false);
     setWalletError(null);
     setIsConnecting('lace');

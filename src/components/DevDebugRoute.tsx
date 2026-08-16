@@ -80,32 +80,59 @@ export const DevDebugRoute: React.FC<DevDebugRouteProps> = ({ onBackToApp }) => 
         <div className="space-y-3 mt-2">
           {!deployResult && (
             <div className="flex space-x-4 items-center p-3 bg-midnight-950 rounded-xl border border-white/5">
-              <button
-                disabled={deploying}
-                onClick={async () => {
-                  setDeploying(true);
-                  setDeployError(null);
-                  try {
-                    // Trigger medical record register circuit as a test transaction
-                    const txHash = await registerMedicalRecordOnChain(
-                      '0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c',
-                      { test: true, timestamp: Date.now() }
-                    );
-                    setDeployResult({
-                      contractAddress: '0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c',
-                      txHash,
-                    });
-                  } catch (err: any) {
-                    setDeployError(err?.message || 'Deploy failed');
-                  } finally {
-                    setDeploying(false);
-                  }
-                }}
-                className="flex-shrink-0 px-4 py-2 bg-shield-purple text-white font-bold rounded-lg hover:bg-shield-purple/80 transition-all flex items-center space-x-2 disabled:opacity-50"
-              >
-                <UploadCloud className="w-4 h-4" />
-                <span>{deploying ? 'Waiting for wallet...' : 'Deploy to Preprod'}</span>
-              </button>
+              <div className="flex space-x-2 flex-shrink-0">
+                <button
+                  disabled={deploying}
+                  onClick={async () => {
+                    setDeploying(true);
+                    setDeployError(null);
+                    try {
+                      // Trigger medical record register circuit as a test transaction
+                      const txHash = await registerMedicalRecordOnChain(
+                        '0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c',
+                        { test: true, timestamp: Date.now() }
+                      );
+                      setDeployResult({
+                        contractAddress: '0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c',
+                        txHash,
+                      });
+                    } catch (err: any) {
+                      setDeployError(err?.message || 'Deploy failed');
+                    } finally {
+                      setDeploying(false);
+                    }
+                  }}
+                  className="px-4 py-2 bg-shield-purple text-white font-bold rounded-lg hover:bg-shield-purple/80 transition-all flex items-center space-x-2 disabled:opacity-50"
+                >
+                  <UploadCloud className="w-4 h-4" />
+                  <span>{deploying ? 'Wait...' : 'Deploy'}</span>
+                </button>
+                
+                <button
+                  onClick={() => {
+                    try {
+                      const w = window as any;
+                      if (!w.midnight) return alert('No window.midnight object found');
+                      const m = w.midnight;
+                      let triggered = false;
+                      for (const k of Object.keys(m)) {
+                        if (k.toLowerCase().includes('1am') && typeof m[k].state === 'function') {
+                          m[k].state().catch((e: any) => alert('1AM Rej: ' + e.message));
+                          triggered = true;
+                        } else if (k.toLowerCase().includes('lace') && typeof m[k].enable === 'function') {
+                          m[k].enable().catch((e: any) => alert('Lace Rej: ' + e.message));
+                          triggered = true;
+                        }
+                      }
+                      if (!triggered) alert('Found midnight object, but no enable() or state() methods matched');
+                    } catch (e: any) { alert('Error: ' + e.message); }
+                  }}
+                  className="px-2 py-2 bg-amber-500/20 text-amber-500 font-bold rounded-lg hover:bg-amber-500/30 transition-all flex items-center shadow-lg border border-amber-500/50"
+                  title="Direct sync wallet ping bypassing React"
+                >
+                  <span>Sync Pop-up Test</span>
+                </button>
+              </div>
 
               <div className="text-[10px] space-y-1 w-full text-slate-400">
                 <div className="flex justify-between border-b border-white/5 pb-1">
