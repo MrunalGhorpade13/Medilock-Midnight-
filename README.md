@@ -6,7 +6,7 @@
   <p>
     <img src="https://img.shields.io/badge/MIDNIGHT_NETWORK-000000?style=for-the-badge&logo=midnight&logoColor=white" alt="Midnight Network" />
     <img src="https://img.shields.io/badge/COMPACT_LANGUAGE-6366f1?style=for-the-badge&logo=code&logoColor=white" alt="Compact Language" />
-    <img src="https://img.shields.io/badge/LACE_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="Lace Wallet" />
+    <img src="https://img.shields.io/badge/1AM_WALLET-8b5cf6?style=for-the-badge&logo=wallet&logoColor=white" alt="1AM Wallet" />
     <img src="https://img.shields.io/badge/1AM_WALLET-f97316?style=for-the-badge&logo=crypto&logoColor=white" alt="1AM Wallet" />
   </p>
 
@@ -48,7 +48,7 @@ Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/a
 ## 🌒 Requirements & Submission Checklist
 
 ### 📋 Requirements to Pass
-- **Lace wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the Lace Wallet provider API with dynamic role switching and interactive disconnect toggle.
+- **1AM wallet connect / disconnect implemented**: ✅ Passed — Connected successfully using the 1AM Wallet provider API with dynamic role switching and interactive disconnect toggle.
 - **Circuit called successfully from the frontend**: ✅ Passed — The `requestAccess()` and `register()` ZK circuits run in local ZK prover client-side memory.
 - **An observable privacy behavior (something proven without being shown)**: ✅ Passed — Patient medical vitals (blood group, allergies, emergency contacts) and responder secret identity keys are evaluated locally inside ZK witness memory. The mathematical proof verifies authorization without exposing vitals or responder keys on-chain.
 - **Contract deployed to Preprod with a verifiable address**: ✅ Passed — Deployed at [`mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c`](https://preprod.midnightexplorer.com/address/mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c).
@@ -154,7 +154,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 - **Blockchain:** Midnight Preprod Testnet
 - **ZK Circuit Compiler:** `@midnight-ntwrk/compact` CLI
 - **Proof Server:** Local Docker Proof Server (`midnightntwrk/proof-server`) on `localhost:6300`
-- **Wallet Integration:** Lace Wallet (Midnight Preprod)
+- **Wallet Integration:** 1AM Wallet (Midnight Preprod)
 - **Frontend Framework:** React 18, Vite, TypeScript, TailwindCSS
 - **QR Engine:** `qrcode.react` & `html5-qrcode`
 
@@ -165,7 +165,7 @@ An on-chain observer can see that a valid medical access request occurred, the p
 - **Node.js** v20 or v22 LTS (`node -v`)
 - **Docker Desktop / Docker Engine** (for running local Midnight Proof Server on port 6300)
 - **WSL 2 (Ubuntu)** or Linux/macOS (for Compact v0.23 compiler)
-- **Lace Wallet** extension set to Preprod network
+- **1AM Wallet** extension set to Preprod network
 
 ---
 
@@ -237,7 +237,7 @@ Medilock-Midnight/
 │   └── start-proof-server.sh   ← Docker proof server runner
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.tsx          ← Top header with theme toggle & Lace status
+│   │   ├── Navbar.tsx          ← Top header with theme toggle & 1AM Wallet status
 │   │   ├── PatientView.tsx     ← 3-page Form, QR, & ID Card workflow
 │   │   └── ResponderView.tsx   ← QR Image upload scanner & vital decoder
 │   ├── services/
@@ -259,7 +259,7 @@ Medilock-Midnight/
 
 - **Midnight Foundation & IOG** for building the ground-breaking privacy-first blockchain architecture.
 - **RiseIn** for hosting the *New Moon to Full: Monthly Moonshots on Midnight* builder program.
-- **Lace Wallet** for providing the official Midnight-compatible wallet extension.
+- **1AM Wallet** for providing the official Midnight-native wallet extension.
 
 ---
 

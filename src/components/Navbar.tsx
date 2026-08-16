@@ -9,7 +9,7 @@ import {
   Moon,
 } from 'lucide-react';
 import { AppMode } from '@contract/types';
-import { midnightProvider, LaceWalletState } from '../services/midnight-provider';
+import { midnightProvider, MidnightWalletState } from '../services/midnight-provider';
 
 interface NavbarProps {
   currentMode: AppMode | 'DEV';
@@ -22,7 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onModeChange,
   onOpenOnboarding,
 }) => {
-  const [walletState, setWalletState] = useState<LaceWalletState>({ isConnected: false });
+  const [walletState, setWalletState] = useState<MidnightWalletState>({ isConnected: false });
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [isDark, setIsDark] = useState<boolean>(() => {
     // Restore persisted preference, default to light
@@ -44,7 +44,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleConnectWallet = async () => {
     setIsConnecting(true);
     try {
-      const state = await midnightProvider.connectLaceWallet();
+      const state = await midnightProvider.connectWallet();
       setWalletState(state);
     } finally {
       setIsConnecting(false);
@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleDisconnectWallet = () => {
-    const state = midnightProvider.disconnectLaceWallet();
+    const state = midnightProvider.disconnectWallet();
     setWalletState(state);
   };
 

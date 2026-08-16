@@ -1,4 +1,4 @@
-// Lace Wallet DApp Connector API Stub & Wallet State Provider
+// 1AM Wallet & Midnight DApp Connector API Stub & Wallet State Provider
 
 export interface MidnightWalletAccount {
   address: string;

@@ -12,7 +12,7 @@ export interface MidnightNetworkConfig {
   nodeUri: string;
 }
 
-export interface LaceWalletState {
+export interface MidnightWalletState {
   isConnected: boolean;
   walletAddress?: string;
   network?: string;
@@ -20,9 +20,11 @@ export interface LaceWalletState {
   error?: string;
 }
 
+export type LaceWalletState = MidnightWalletState;
+
 class MidnightProviderService {
   private config: MidnightNetworkConfig;
-  private walletState: LaceWalletState = { isConnected: false };
+  private walletState: MidnightWalletState = { isConnected: false };
 
   constructor() {
     const isUndeployed = import.meta.env.VITE_MIDNIGHT_NETWORK === 'undeployed';
@@ -136,11 +138,25 @@ class MidnightProviderService {
   }
 
   /**
+   * Primary connection method: connects to 1AM Wallet (or Lace Wallet as fallback)
+   */
+  public async connectWallet(): Promise<MidnightWalletState> {
+    return this.connectLaceWallet();
+  }
+
+  /**
    * Disconnects the wallet session
    */
-  public disconnectLaceWallet(): LaceWalletState {
+  public disconnectWallet(): MidnightWalletState {
     this.walletState = { isConnected: false };
     return this.walletState;
+  }
+
+  /**
+   * Disconnects the wallet session (backward compatible)
+   */
+  public disconnectLaceWallet(): MidnightWalletState {
+    return this.disconnectWallet();
   }
 
   /**

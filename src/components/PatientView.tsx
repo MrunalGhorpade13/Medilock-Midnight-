@@ -85,7 +85,7 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
 
     try {
       // Trigger 1AM Wallet authentication popup & state sync
-      await midnightProvider.connectLaceWallet();
+      await midnightProvider.connectWallet();
 
       const updatedPayload: MedicalPayload = {
         fullName: fullName.trim(),

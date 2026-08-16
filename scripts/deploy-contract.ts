@@ -109,16 +109,16 @@ async function main(): Promise<void> {
   checkCompiledArtifacts();
   await checkProofServer();
 
-  console.log('\n📋  Next Steps (manual with Lace Wallet):');
+  console.log('\n📋  Next Steps (manual with 1AM Wallet):');
   console.log('─'.repeat(50));
   console.log('');
-  console.log('  The Midnight JS SDK requires a browser environment to talk to Lace.');
+  console.log('  The Midnight JS SDK requires a browser environment to talk to 1AM Wallet.');
   console.log('  Since this is a Vite + React app, deploy through the browser instead.');
   console.log('');
   console.log('  1. Start the app:  npm run dev');
   console.log('  2. Open:           http://localhost:3000');
   console.log('  3. Fill in your medical info and click "Save & Generate QR Code"');
-  console.log('  4. Lace Wallet will prompt you to APPROVE the transaction');
+  console.log('  4. 1AM Wallet will prompt you to APPROVE the transaction');
   console.log('  5. After approval, the contract is deployed and the address is saved');
   console.log('');
   console.log('  ──────────────────────────────────────────────');

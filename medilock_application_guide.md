@@ -174,14 +174,14 @@ For developers looking to extend and enhance **Medilock-Midnight**, here are hig
 
 ```mermaid
 graph LR
-    A[Current Version: Local Simulator] --> B[Phase 1: Midnight JS SDK & Lace Wallet]
+    A[Current Version: Local Simulator] --> B[Phase 1: Midnight JS SDK & 1AM Wallet]
     B --> C[Phase 2: FHIR / HL7 EHR Standards]
     C --> D[Phase 3: Physical NFC & Wearables]
     D --> E[Phase 4: Time-Locked Break-Glass Protocol]
 ```
 
-1. **Native Midnight JS SDK & Lace Wallet Integration**:
-   * Replace [lockbox-simulator.ts](file:///c:/Users/MRUNAL/Medilock-Midnight/contract/lockbox-simulator.ts) with the official Midnight JS SDK (`@midnight-ntwrk/midnight-js-contracts`) and connect to Midnight Testnet node via Lace Wallet browser extension.
+1. **Native Midnight JS SDK & 1AM Wallet Integration**:
+   * Replace [lockbox-simulator.ts](file:///c:/Users/MRUNAL/Medilock-Midnight/contract/lockbox-simulator.ts) with the official Midnight JS SDK (`@midnight-ntwrk/midnight-js-contracts`) and connect to Midnight Testnet node via 1AM Wallet browser extension.
 2. **FHIR / HL7 Data Standard Compatibility**:
    * Standardize the medical payload format into HL7 FHIR (Fast Healthcare Interoperability Resources) JSON format for direct interoperability with hospital electronic health record systems (Epic, Cerner).
 3. **Hardware NFC / Emergency Bracelet Integration**:
