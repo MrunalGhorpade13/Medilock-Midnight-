@@ -55,6 +55,7 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
   const [organDonor, setOrganDonor] = useState(payload?.organDonor ?? true);
 
   const [isRegistering, setIsRegistering] = useState(false);
+  const [walletStatus, setWalletStatus] = useState<string>('');
 
   // QR download ref
   const qrSvgRef = useRef<SVGSVGElement | null>(null);
@@ -82,10 +83,29 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
     e.preventDefault();
     setIsRegistering(true);
     setSaveSuccess(false);
+    setWalletStatus('');
 
     try {
-      // Trigger 1AM Wallet authentication popup & state sync
-      await midnightProvider.connectWallet();
+      // Step 1: Trigger 1AM Wallet connection — this opens the popup
+      setWalletStatus('Connecting to 1AM Wallet... Please approve in the extension popup.');
+
+      const walletState = await midnightProvider.connectWallet();
+
+      // If wallet didn't connect (user rejected or extension missing), stop here
+      if (!walletState.isConnected) {
+        setWalletStatus('');
+        alert(
+          'Wallet connection was rejected or 1AM Wallet extension is not found.\n\n' +
+          'Please:\n' +
+          '1. Open the 1AM Wallet extension in Chrome\n' +
+          '2. Make sure it is set to Preprod network\n' +
+          '3. Click "Save & Generate QR Code" again'
+        );
+        return;
+      }
+
+      // Step 2: Wallet approved — now register the medical record
+      setWalletStatus(`✅ Wallet connected: ${walletState.walletAddress?.slice(0, 24)}... Saving your medical record to the blockchain...`);
 
       const updatedPayload: MedicalPayload = {
         fullName: fullName.trim(),
@@ -110,13 +130,16 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
       await lockboxService.registerMedicalRecord(activeWallet.secretKeyHex, updatedPayload);
       refreshLocalState();
       setSaveSuccess(true);
-      setPage('QR'); // Go straight to QR page after saving
+      setWalletStatus('');
+      setPage('QR'); // Go to QR page after saving
     } catch (err: any) {
+      setWalletStatus('');
       alert(`Registration Error: ${err.message}`);
     } finally {
       setIsRegistering(false);
     }
   };
+
 
   // Download the QR as a PNG image file
   const handleDownloadQr = () => {
@@ -355,10 +378,17 @@ export const PatientView: React.FC<PatientViewProps> = ({ onStateUpdated }) => {
               />
             </div>
 
+            {walletStatus && (
+              <div className="flex items-center space-x-2 px-4 py-3 bg-blue-50 border border-blue-200 rounded-xl text-sm font-medium text-blue-700">
+                <RefreshCw className="w-4 h-4 animate-spin flex-shrink-0" />
+                <span>{walletStatus}</span>
+              </div>
+            )}
+
             <button
               type="submit"
               disabled={isRegistering}
-              className="w-full py-3.5 px-4 bg-healthcare-accent text-white font-bold text-sm rounded-xl shadow-healthcare hover:opacity-95 transition-all flex items-center justify-center space-x-2"
+              className="w-full py-3.5 px-4 bg-healthcare-accent text-white font-bold text-sm rounded-xl shadow-healthcare hover:opacity-95 transition-all flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {isRegistering ? (
                 <>
