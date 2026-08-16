@@ -1,7 +1,10 @@
 {
-  "contractAddress": "mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj",
+  "contractAddress": "0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c",
+  "walletAddress": "mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj",
+  "deploymentTxHash": "0xbfa03f8021e64c48f1a113649459d778fbf54d33fa33e39cacd5f66e27ad299e",
   "network": "preprod",
   "nodeUrl": "https://rpc.preprod.midnight.network",
   "indexerUrl": "https://indexer.preprod.midnight.network/api/v1/graphql",
-  "deployedAt": "2026-08-16T08:28:46.271Z"
+  "proofServerUrl": "https://proof-server.preprod.midnight.network",
+  "deployedAt": "2026-08-16T09:00:54.478Z"
 }

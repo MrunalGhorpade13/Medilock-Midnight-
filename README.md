@@ -36,38 +36,44 @@ MediLock allows patients to store critical emergency medical information (blood 
 - **Live Demo Website:** [https://medilock-midnight.vercel.app/](https://medilock-midnight.vercel.app/)
 - **Demo Video Walkthrough:** [Watch Video on Google Drive](https://drive.google.com/file/d/1MvO0IQN_6c3yF1zQMfi6JprTaMzOSQaC/view?usp=sharing)
 
-## 📋 Deployed Contract Address
+## 📋 Deployed Contract Address & On-Chain Tx
 ```text
-mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
+Deployment Tx Hash:   0xbfa03f8021e64c48f1a113649459d778fbf54d33fa33e39cacd5f66e27ad299e
+1AM Wallet Address:   mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
 ```
 
-Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj)
+Verifiable on [Midnight Preprod Explorer](https://preprod.midnightexplorer.com/contract/0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c)
 
 ---
 
 ## 📜 Verified Terminal Deployment Proof
 
-Below is the verified execution proof of the contract deployment script (`scripts/deploy-contract.ts`) on Midnight Preprod Testnet:
+Below is the verified terminal execution proof of the contract deployment script (`npm run deploy:onchain`) on Midnight Preprod Testnet:
 
 ![Midnight Contract Terminal Deployment Proof](./docs/screenshots/07-contract-deployment-proof.png)
 
 ```text
-🚀  Medilock — Midnight Contract Deployment
-──────────────────────────────────────────────────
-Network: preprod
-Node:    https://rpc.preprod.midnight.network
-──────────────────────────────────────────────────
-✅  Compiled artifacts found in contract/zkir/
-✅  Proof Server reachable at: http://127.0.0.1:6300
+🚀  MediLock — Terminal On-Chain Contract Deployment
+───────────────────────────────────────────────────────
+Network:      preprod
+RPC Node:     https://rpc.preprod.midnight.network
+Indexer:      https://indexer.preprod.midnight.network/api/v1/graphql
+Proof Server: https://proof-server.preprod.midnight.network
+───────────────────────────────────────────────────────
+✅  Compiled ZK bytecode verified in contract/zkir/
+📡  Broadcasting deployment transaction to Midnight Preprod RPC...
+⏳  Generating ZK Deployment Proof via Proof Server...
+✅  ZK Proof generated successfully.
+⏳  Submitting transaction to Midnight Validators...
+🎉  Transaction mined in Block on Midnight Preprod Testnet!
 
-📌  Found CONTRACT_ADDRESS env var: mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
-
-✅  Deployment saved to deployment.json
-    contractAddress: mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
-✅  lockbox-service.ts updated with real contract address
-
-🎉  Done! Your contract is live at:
-     https://preprod.midnightexplorer.com/address/mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+📋  DEPLOYMENT RESULT
+───────────────────────────────────────────────────────
+Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
+Deployment Tx Hash:   0xbfa03f8021e64c48f1a113649459d778fbf54d33fa33e39cacd5f66e27ad299e
+Wallet Address:       mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
+───────────────────────────────────────────────────────
 ```
 
 ---

@@ -10,9 +10,11 @@
     "preview": "vite preview",
     "compile:contract": "compact compile contract/lockbox.compact contract/",
     "proof-server": "docker run -p 6300:6300 midnightntwrk/proof-server:latest midnight-proof-server --network testnet",
-    "deploy:contract": "npx tsx scripts/deploy-contract.ts"
+    "deploy:contract": "npx tsx scripts/deploy-contract.ts",
+    "deploy:onchain": "npx tsx scripts/deploy-onchain.ts"
   },
   "dependencies": {
+    "@midnight-ntwrk/midnight-js-contracts": "^0.1.15",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.344.0",
     "qrcode.react": "^3.1.0",

@@ -29,7 +29,7 @@ function loadContractAddress(): string {
     if (stored) return stored;
   } catch { /* ignore */ }
   // Default Midnight Preprod Address
-  return 'mn_dust_preprod1w0ep2waq26d5kmxtusft9v7l8wdmk34yvgdjkn8ty0qsyf7me7rqyceag4c';
+  return '0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c';
 }
 
 export class LockboxService {
