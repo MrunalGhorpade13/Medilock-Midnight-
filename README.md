@@ -39,7 +39,7 @@ MediLock allows patients to store critical emergency medical information (blood 
 ## 📋 Deployed Contract Address & On-Chain Tx
 ```text
 Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
-Deployment Tx Hash:   0xbfa03f8021e64c48f1a113649459d778fbf54d33fa33e39cacd5f66e27ad299e
+Deployment Tx Hash:   0xd013c7c8a2f34899a86b0f3b7a16f66d8632ca83bc3a6597d3ddcf9d6da842ab
 1AM Wallet Address:   mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
 ```
 
@@ -71,7 +71,7 @@ Proof Server: https://proof-server.preprod.midnight.network
 📋  DEPLOYMENT RESULT
 ───────────────────────────────────────────────────────
 Hex Contract Address: 0xe2763880291d490ab466554a3b2446a5a8b4fefa10998c72871e9257dc8d180c
-Deployment Tx Hash:   0xbfa03f8021e64c48f1a113649459d778fbf54d33fa33e39cacd5f66e27ad299e
+Deployment Tx Hash:   0xd013c7c8a2f34899a86b0f3b7a16f66d8632ca83bc3a6597d3ddcf9d6da842ab
 Wallet Address:       mn_addr_preprod1sjfx4y47c7n2zuueycjxdaaq89t3hwzqtzxcjlqgd3n82pc5cfxqes5gcj
 ───────────────────────────────────────────────────────
 ```
